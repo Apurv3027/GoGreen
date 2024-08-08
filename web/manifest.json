@@ -1,0 +1,35 @@
+{
+    "name": "go_green",
+    "short_name": "go_green",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "Go Green is an innovative e-commerce platform dedicated to connecting nature lovers with a vast selection of plants, gardening tools, and eco-friendly products. Whether you’re a seasoned gardener or a novice plant enthusiast, Go Green provides everything you need to create and maintain your green oasis, all from the comfort of your home.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
