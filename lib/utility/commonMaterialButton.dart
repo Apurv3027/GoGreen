@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:go_green/utility/text_utils.dart';
 
+import 'color_utilities.dart';
+
 Widget commonMatButton({
   Function()? onPressed,
   Color? buttonColor,
@@ -17,7 +19,7 @@ Widget commonMatButton({
     elevation: 0,
     child: Text(
       txt ?? '',
-      style: color172F49w40014.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+      style: color172F49w40014.copyWith(fontSize: 20, fontWeight: FontWeight.bold, color: charcoalBlack),
     ),
   );
 }

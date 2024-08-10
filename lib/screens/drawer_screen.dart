@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../utility/assets_utility.dart';
+import '../utility/color_utilities.dart';
 import '../utility/text_utils.dart';
 
 class DrawerScreen extends StatelessWidget {
@@ -19,6 +20,7 @@ class DrawerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: softWhite,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +50,7 @@ class DrawerScreen extends StatelessWidget {
                           },
                           child: Icon(
                             Icons.clear,
-                            color: Colors.white,
+                            color: stoneGray,
                             size: 30,
                           ),
                         ),

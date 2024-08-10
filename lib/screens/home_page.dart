@@ -91,16 +91,16 @@ class HomeScreen extends StatelessWidget {
     // ];
 
     return Scaffold(
-      backgroundColor: colorFFFFFF,
+      backgroundColor: softWhite,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: color000000),
+        iconTheme: IconThemeData(color: charcoalBlack),
 
         // leading: const Icon(
         //   Icons.menu,
         //   size: 30,
         //   color: color000000,
         // ),
-        backgroundColor: colorFFFFFF,
+        backgroundColor: softWhite,
         elevation: 0,
         title: Text(
           username,
@@ -119,6 +119,7 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: Image(
                   image: notification,
+                  color: charcoalBlack,
                 )),
           ),
         ],

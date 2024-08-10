@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_green/utility/text_utils.dart';
 
+import 'color_utilities.dart';
+
 Widget commonWelcomeButton({
   VoidCallback? onPressed,
   Color? buttonColor,
@@ -14,7 +16,7 @@ Widget commonWelcomeButton({
     color: buttonColor,
     child: Text(
       txt ?? '',
-      style: color172F49w70016.copyWith(fontSize: 20),
+      style: color172F49w70016.copyWith(fontSize: 20, color: charcoalBlack),
     ),
   );
 }

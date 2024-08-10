@@ -2,7 +2,7 @@
     <application
         android:label="go_green"
         android:name="${applicationName}"
-        android:icon="@mipmap/Welcome_LogoWhite">
+        android:icon="@mipmap/welcome_logowhite">
         <activity
             android:name=".MainActivity"
             android:exported="true"

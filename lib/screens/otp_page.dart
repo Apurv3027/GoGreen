@@ -25,7 +25,7 @@ class _OtpVerificationState extends State<OtpVerification> {
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorFFFFFF,
+      backgroundColor: softWhite,
       appBar: AppBar(
         toolbarHeight: 50,
         leading: GestureDetector(
@@ -34,7 +34,7 @@ class _OtpVerificationState extends State<OtpVerification> {
           },
           child: const Image(image: backArrow),
         ),
-        backgroundColor: colorFFFFFF,
+        backgroundColor: softWhite,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -87,7 +87,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                           child: Text(
                             "Resend Otp In",
                             style: color000000w50020.copyWith(
-                                fontSize: 25, fontWeight: FontWeight.w800),
+                                fontSize: 25, fontWeight: FontWeight.w800, color: charcoalBlack),
                           ),
                         ),
                         actions: <Widget>[
@@ -112,10 +112,10 @@ class _OtpVerificationState extends State<OtpVerification> {
                                     ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
-                                      color: colorFFCA27,
+                                      color: cactusGreen,
                                     ),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 150, vertical: 10),
+                                        horizontal: 95, vertical: 10),
                                     style: colorFFFFFFw80024,
                                     duration: const Duration(minutes: 1),
                                   ),
@@ -148,7 +148,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                       children: [
                         TextSpan(
                           text: resend.tr,
-                          style: colorFFCA27w50018,
+                          style: colorFFCA27w50018.copyWith(color: cactusGreen),
                         ),
                       ],
                     ),
@@ -165,7 +165,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                         Get.to(ResetPassword());
                       },
                       txt: verify,
-                      buttonColor: colorFFCA27)),
+                      buttonColor: cactusGreen)),
             ],
           ),
         ),

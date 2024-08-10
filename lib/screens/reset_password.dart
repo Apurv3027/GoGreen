@@ -45,7 +45,6 @@ class _ResetPasswordState extends State<ResetPassword> {
               SizedBox(
                 height: 30,
               ),
-
               Container(
                 width: 350,
                 child: Text(
@@ -80,7 +79,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 btn: IconButton(
                   icon: Icon(
                     _isObscure ? Icons.visibility : Icons.visibility_off,
-                    color: colorFFCA27,
+                    color: stoneGray,
                   ),
                   onPressed: () {
                     setState(() {
@@ -106,7 +105,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 btn: IconButton(
                   icon: Icon(
                     _isObscure ? Icons.visibility : Icons.visibility_off,
-                    color: colorFFCA27,
+                    color: stoneGray,
                   ),
                   onPressed: () {
                     setState(() {
@@ -131,7 +130,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                         Get.offAll(const LogIn());
                       },
                       txt: save,
-                      buttonColor: colorFFCA27
+                      buttonColor: cactusGreen
                   )
               ),
             ],

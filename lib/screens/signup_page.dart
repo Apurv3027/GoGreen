@@ -41,7 +41,7 @@ class _SignupPageState extends State<SignupPage> {
             children: [
               TextSpan(
                   text: signIn.tr,
-                  style: color7AFF18w50018,
+                  style: color7AFF18w50018.copyWith(color: cactusGreen),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       Get.offAll(LogIn());
@@ -50,7 +50,7 @@ class _SignupPageState extends State<SignupPage> {
           ),
         ),
       ),
-      backgroundColor: colorFFFFFF,
+      backgroundColor: softWhite,
       appBar: AppBar(
         toolbarHeight: 50,
         leading: GestureDetector(
@@ -59,7 +59,7 @@ class _SignupPageState extends State<SignupPage> {
           },
           child: Image(image: backArrow),
         ),
-        backgroundColor: colorFFFFFF,
+        backgroundColor: softWhite,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -74,16 +74,30 @@ class _SignupPageState extends State<SignupPage> {
               ),
               Text(
                 signup,
-                style: color000000w90022.copyWith(fontWeight: FontWeight.bold, fontSize: 35),
+                style: color000000w90022.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 35,
+                  color: charcoalBlack,
+                ),
               ),
               SizedBox(
                 height: 40,
               ),
-              commonTextField(name: nameSuggestion, suggestionTxt: enterName, controller: nameController, action: TextInputAction.next),
+              commonTextField(
+                name: nameSuggestion,
+                suggestionTxt: enterName,
+                controller: nameController,
+                action: TextInputAction.next,
+              ),
               SizedBox(
                 height: 40,
               ),
-              commonTextField(name: emailSuggestion, suggestionTxt: enterMail, controller: emailController, action: TextInputAction.next),
+              commonTextField(
+                name: emailSuggestion,
+                suggestionTxt: enterMail,
+                controller: emailController,
+                action: TextInputAction.next,
+              ),
               SizedBox(
                 height: 40,
               ),
@@ -96,7 +110,7 @@ class _SignupPageState extends State<SignupPage> {
                 btn: IconButton(
                   icon: Icon(
                     _isObscure ? Icons.visibility : Icons.visibility_off,
-                    color: colorFFCA27,
+                    color: stoneGray,
                   ),
                   onPressed: () {
                     setState(() {
@@ -130,7 +144,7 @@ class _SignupPageState extends State<SignupPage> {
                         Get.to(OtpVerification());
                       },
                       txt: signUp,
-                      buttonColor: colorFFCA27)),
+                      buttonColor: cactusGreen)),
             ],
           ),
         ),

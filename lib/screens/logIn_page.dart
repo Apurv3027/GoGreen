@@ -42,7 +42,7 @@ class _LogInState extends State<LogIn> {
               children: [
                 TextSpan(
                     text: signup.tr,
-                    style: color7AFF18w50018,
+                    style: color7AFF18w50018.copyWith(color: cactusGreen),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         Get.to(const SignupPage());
@@ -55,7 +55,7 @@ class _LogInState extends State<LogIn> {
           )
         ],
       ),
-      backgroundColor: colorFFFFFF,
+      backgroundColor: softWhite,
       appBar: AppBar(
         toolbarHeight: 50,
         leading: GestureDetector(
@@ -64,7 +64,7 @@ class _LogInState extends State<LogIn> {
           },
           child: const Image(image: backArrow),
         ),
-        backgroundColor: colorFFFFFF,
+        backgroundColor: softWhite,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -79,7 +79,10 @@ class _LogInState extends State<LogIn> {
               Text(
                 logIn,
                 style: color000000w90022.copyWith(
-                    fontWeight: FontWeight.bold, fontSize: 35),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 35,
+                  color: charcoalBlack,
+                ),
               ),
               const SizedBox(
                 height: 40,
@@ -102,7 +105,7 @@ class _LogInState extends State<LogIn> {
                 btn: IconButton(
                   icon: Icon(
                     _isObscure ? Icons.visibility : Icons.visibility_off,
-                    color: colorFFCA27,
+                    color: stoneGray,
                   ),
                   onPressed: () {
                     setState(() {
@@ -127,7 +130,7 @@ class _LogInState extends State<LogIn> {
                   },
                   child: Text(
                     forgate,
-                    style: color000000w90018,
+                    style: color000000w90018.copyWith(color: cactusGreen),
                   ),
                 ),
               ),
@@ -141,7 +144,7 @@ class _LogInState extends State<LogIn> {
                         Get.offAll(const HomeScreen());
                       },
                       txt: logIn,
-                      buttonColor: colorFFCA27)),
+                      buttonColor: cactusGreen)),
             ],
           ),
         ),

@@ -43,7 +43,7 @@ class WelcomePage extends StatelessWidget {
 
                     const Image(
                       image: logo,
-                      height: 150,
+                      height: 250,
                     ),
                     const Spacer(),
                     // MaterialButton(
@@ -68,7 +68,8 @@ class WelcomePage extends StatelessWidget {
                         onPressed: () {
                           Get.to(const SignupPage());
                         },
-                        buttonColor: colorFFCA27,
+                        // buttonColor: colorFFCA27,
+                        buttonColor: cactusGreen,
                         txt: signUp,
                         minWidth: 500),
                   ],

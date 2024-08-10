@@ -23,7 +23,8 @@ class _Splash_ScreennState extends State<Splash_Screenn> {
     return Stack(
       fit: StackFit.expand,
       children: const [
-        Image(image: splash, fit: BoxFit.cover),
+        // Image(image: splash, fit: BoxFit.cover),
+        Image(image: splashScreen, fit: BoxFit.cover),
       ],
     );
   }

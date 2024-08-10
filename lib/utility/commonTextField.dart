@@ -48,14 +48,14 @@ Widget commonTextField({
       TextFormField(
         textInputAction: action,
         controller: controller,
-        cursorColor: Colors.amber,
+        cursorColor: earthyBrown,
         keyboardType: keyBoard,
         decoration: InputDecoration(
           hintText: suggestionTxt,
           hintStyle: TextStyle(fontSize: 20),
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
-              color: colorFFCA27,
+              color: earthyBrown,
             ),
           ),
         ),
@@ -82,13 +82,13 @@ Widget commonPasswordTextField({
         obscureText: obsecure,
         controller: controller,
         textInputAction: action,
-        cursorColor: Colors.amber,
+        cursorColor: earthyBrown,
         decoration: InputDecoration(
           hintText: suggestionTxt,
           hintStyle: TextStyle(fontSize: 20),
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
-              color: colorFFCA27,
+              color: earthyBrown,
             ),
           ),
           suffixIcon: btn,

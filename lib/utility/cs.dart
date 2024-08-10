@@ -42,11 +42,11 @@ String categoriesTitle = 'Categories';
 
 String trending = 'Trending';
 String notificationTxt = 'Notification';
-String notificationTxt1 = 'Check your passwords score';
+String notificationTxt1 = 'Check your passwords';
 String notificationTxt2 = 'Order success';
 String notificationTxt3 = 'Order arrived';
 String notificationTxt4 = 'Payment Confirmed';
-String notificationDemoTxt = 'Lorem ipsum morbi ut dictumst auctor is \nturpis sagittis pharetra, mattis ectus enim dolor ';
+String notificationDemoTxt = 'Lorem ipsum morbi ut dictumst auctor is';
 String justNow = 'Just Now';
 String time1 = '2 hrs ago';
 String time2 = '4 hrs ago';

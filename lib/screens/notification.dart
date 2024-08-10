@@ -13,7 +13,7 @@ class NotificationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorFFFFFF,
+      backgroundColor: softWhite,
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
@@ -25,7 +25,7 @@ class NotificationBar extends StatelessWidget {
             color: color000000,
           ),
         ),
-        backgroundColor: colorFFFFFF,
+        backgroundColor: softWhite,
         elevation: 0,
       ),
       body: Column(
@@ -36,80 +36,91 @@ class NotificationBar extends StatelessWidget {
             child: Text(
               notificationTxt,
               style: color000000w90022.copyWith(
-                  fontWeight: FontWeight.bold, fontSize: 35),
+                  fontWeight: FontWeight.bold, fontSize: 35, color: charcoalBlack),
             ),
           ),
           Divider(
             thickness: 1,
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: Container(
-                  width: double.infinity,
-                  height: 155,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: colorCCCCCC,
-                      )),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: colorF4F4F4,
+          SingleChildScrollView(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 155,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: colorCCCCCC,
+                        )),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: colorF4F4F4,
+                            ),
+                            child: Icon(NotificationList[index].ico),
                           ),
-                          child: Icon(NotificationList[index].ico),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              NotificationList[index].name ?? '',
-                              style: color000000w90022,
-                            ),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Text(
-                              notificationDemoTxt,
-                              style: color999999w40016,
-                            ),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Row(
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(Icons.check_circle_outline),
+                                // Text(
+                                //   NotificationList[index].name ?? '',
+                                //   style: color000000w90022,
+                                // ),
                                 SizedBox(
-                                  width: 5,
+                                  width: MediaQuery.of(context).size.width * 0.7, // Adjust the width accordingly
+                                  child: Text(
+                                    NotificationList[index].name ?? '',
+                                    style: color000000w90022,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 6,
                                 ),
                                 Text(
-                                  NotificationList[index].time ?? '',
+                                  notificationDemoTxt,
                                   style: color999999w40016,
                                 ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(Icons.check_circle_outline),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      NotificationList[index].time ?? '',
+                                      style: color999999w40016,
+                                    ),
+                                  ],
+                                )
                               ],
-                            )
-                          ],
-                        )
-                      ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-            itemCount: NotificationList.length,
+                );
+              },
+              itemCount: NotificationList.length,
+            ),
           ),
         ],
       ),
@@ -130,11 +141,11 @@ List<Notification> NotificationList = [
     name: notificationTxt,
     time: justNow,
   ),
-  Notification(
-    ico: Icons.done,
-    name: notificationTxt1,
-    time: time1,
-  ),
+  // Notification(
+  //   ico: Icons.done,
+  //   name: notificationTxt1,
+  //   time: time1,
+  // ),
   Notification(
     ico: Icons.inventory,
     name: notificationTxt2,
