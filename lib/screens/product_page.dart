@@ -25,27 +25,27 @@ class _ProductPageState extends State<ProductPage> {
   bool _pinned = true;
   bool _snap = false;
   bool _floating = true;
-  RxInt selectedcolor = 0.obs;
-  List<Color> colors = [
-    colorDDB692,
-    color007AFF,
-    colorFF9500,
-    colorFF2D55,
-    color5856D6,
-    colorE5E5EA,
-    colorDDB692,
-    color007AFF,
-    colorFF9500,
-    colorFF2D55,
-    color5856D6,
-    colorE5E5EA
-  ];
+  // RxInt selectedcolor = 0.obs;
+  // List<Color> colors = [
+  //   colorDDB692,
+  //   color007AFF,
+  //   colorFF9500,
+  //   colorFF2D55,
+  //   color5856D6,
+  //   colorE5E5EA,
+  //   colorDDB692,
+  //   color007AFF,
+  //   colorFF9500,
+  //   colorFF2D55,
+  //   color5856D6,
+  //   colorE5E5EA
+  // ];
 
   Widget build(BuildContext context) {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       // extendBodyBehindAppBar: true,
-      backgroundColor: Colors.white,
+      backgroundColor: softWhite,
       // appBar: AppBar(
       //   toolbarHeight: 80,
       //   // brightness: Brightness.light
@@ -122,7 +122,7 @@ class _ProductPageState extends State<ProductPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
-                                width: 340,
+                                width: 300,
                                 child: Text(
                                   productName,
                                   style: color000000w60030.copyWith(),
@@ -147,119 +147,129 @@ class _ProductPageState extends State<ProductPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 18.0),
                           child: Text(
-                            productPrice,
+                            "₹ " + productPrice,
                             style: colorFF2D55w70026,
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                          child: Divider(
-                            color: color000000,
-                            thickness: 0.3,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 18),
-                          child: Text(
-                            color,
-                            style: color000000w60020,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        SizedBox(
-                          height: 50,
-                          child: ListView.builder(
-                              padding: const EdgeInsets.symmetric(horizontal: 9.0),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: colors.length,
-                              itemBuilder: (context, index) {
-                                return Obx(() {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 9.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        selectedcolor.value = index;
-                                      },
-                                      child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                          color: colors[index],
-                                          borderRadius: BorderRadius.circular(50),
-                                        ),
-                                        child: index == selectedcolor.value ? Icon(Icons.done) : SizedBox(),
-                                      ),
-                                    ),
-                                  );
-                                });
-                              }),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          height: 10,
-                          child: Divider(
-                            color: color000000,
-                            thickness: 0.3,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                like,
-                                style: color000000w60020,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    show,
-                                    style: color000000w50016,
-                                  ),
-                                  Icon(Icons.skip_next)
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 125,
-                          child: ListView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 9),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: categoriesList.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () => Get.to(CategoryPage()),
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 9.0,
-                                        ),
-                                        child: Image(
-                                          image: categoriesList[index].img,
-                                          height: 95,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: 20,
+                        //   child: Divider(
+                        //     color: color000000,
+                        //     thickness: 0.3,
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       vertical: 10.0, horizontal: 18),
+                        //   child: Text(
+                        //     color,
+                        //     style: color000000w60020,
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 8,
+                        // ),
+                        // SizedBox(
+                        //   height: 50,
+                        //   child: ListView.builder(
+                        //     padding:
+                        //         const EdgeInsets.symmetric(horizontal: 9.0),
+                        //     shrinkWrap: true,
+                        //     scrollDirection: Axis.horizontal,
+                        //     // itemCount: colors.length,
+                        //     itemBuilder: (context, index) {
+                        //       return Obx(
+                        //         () {
+                        //           return Padding(
+                        //             padding: const EdgeInsets.symmetric(
+                        //                 horizontal: 9.0),
+                        //             child: GestureDetector(
+                        //               onTap: () {
+                        //                 selectedcolor.value = index;
+                        //               },
+                        //               child: Container(
+                        //                 height: 50,
+                        //                 width: 50,
+                        //                 decoration: BoxDecoration(
+                        //                   color: colors[index],
+                        //                   borderRadius:
+                        //                       BorderRadius.circular(50),
+                        //                 ),
+                        //                 child: index == selectedcolor.value
+                        //                     ? Icon(Icons.done)
+                        //                     : SizedBox(),
+                        //               ),
+                        //             ),
+                        //           );
+                        //         },
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 20,
+                        // ),
+                        // SizedBox(
+                        //   height: 10,
+                        //   child: Divider(
+                        //     color: color000000,
+                        //     thickness: 0.3,
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       horizontal: 18.0, vertical: 15),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: [
+                        //       Text(
+                        //         like,
+                        //         style: color000000w60020,
+                        //       ),
+                        //       Row(
+                        //         children: [
+                        //           Text(
+                        //             show,
+                        //             style: color000000w50016,
+                        //           ),
+                        //           Icon(Icons.skip_next)
+                        //         ],
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        // SizedBox(
+                        //   height: 125,
+                        //   child: ListView.builder(
+                        //     padding: EdgeInsets.symmetric(horizontal: 9),
+                        //     shrinkWrap: true,
+                        //     scrollDirection: Axis.horizontal,
+                        //     itemCount: categoriesList.length,
+                        //     itemBuilder: (context, index) {
+                        //       return GestureDetector(
+                        //         onTap: () => Get.to(CategoryPage()),
+                        //         child: Container(
+                        //           child: Column(
+                        //             children: [
+                        //               Padding(
+                        //                 padding: const EdgeInsets.symmetric(
+                        //                   horizontal: 9.0,
+                        //                 ),
+                        //                 child: Image(
+                        //                   image: categoriesList[index].img,
+                        //                   height: 95,
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
                         SizedBox(
                           height: 5,
                           child: Divider(
@@ -271,7 +281,8 @@ class _ProductPageState extends State<ProductPage> {
                           height: 10,
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 18.0, vertical: 15),
                           child: Text(
                             description,
                             style: color000000w60020,
@@ -283,7 +294,8 @@ class _ProductPageState extends State<ProductPage> {
                             width: 450,
                             child: Text(
                               descriptionData,
-                              style: color000000w40020.copyWith(fontWeight: FontWeight.normal, fontSize: 18),
+                              style: color000000w40020.copyWith(
+                                  fontWeight: FontWeight.normal, fontSize: 18),
                             ),
                           ),
                         ),
@@ -298,31 +310,35 @@ class _ProductPageState extends State<ProductPage> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    sku,
-                                    style: color999999w50018.copyWith(fontWeight: FontWeight.normal),
-                                  ),
+                                  // Text(
+                                  //   sku,
+                                  //   style: color999999w50018.copyWith(
+                                  //       fontWeight: FontWeight.normal),
+                                  // ),
                                   Text(
                                     categories,
-                                    style: color999999w50018.copyWith(fontWeight: FontWeight.normal),
+                                    style: color999999w50018.copyWith(
+                                        fontWeight: FontWeight.normal),
                                   ),
                                   Text(
                                     tags,
-                                    style: color999999w50018.copyWith(fontWeight: FontWeight.normal),
+                                    style: color999999w50018.copyWith(
+                                        fontWeight: FontWeight.normal),
                                   ),
-                                  Text(
-                                    dimensions,
-                                    style: color999999w50018.copyWith(fontWeight: FontWeight.normal),
-                                  ),
+                                  // Text(
+                                  //   dimensions,
+                                  //   style: color999999w50018.copyWith(
+                                  //       fontWeight: FontWeight.normal),
+                                  // ),
                                 ],
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    model,
-                                    style: color000000w50020,
-                                  ),
+                                  // Text(
+                                  //   model,
+                                  //   style: color000000w50020,
+                                  // ),
                                   Text(
                                     modelDetails,
                                     style: color000000w50020,
@@ -331,83 +347,85 @@ class _ProductPageState extends State<ProductPage> {
                                     hashtag,
                                     style: color000000w50020,
                                   ),
-                                  Text(
-                                    dimensionsSize,
-                                    style: color000000w50020,
-                                  ),
+                                  // Text(
+                                  //   dimensionsSize,
+                                  //   style: color000000w50020,
+                                  // ),
                                 ],
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
-                          child: Text(
-                            similarItems,
-                            style: color000000w60020,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 350,
-                          child: ListView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
-                                  onTap: () => Get.to(FeauturedScreen()),
-                                  child: Container(
-                                    width: 180,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Stack(
-                                          children: [
-                                            Image(
-                                              image: gridItemList[index].img,
-                                            ),
-                                            Positioned(
-                                                top: 10,
-                                                right: 12,
-                                                child: FavoriteButton(
-                                                  iconColor: Colors.black,
-                                                  iconSize: 35,
-                                                  isFavorite: true,
-                                                  valueChanged: (_isFavorite) {
-                                                    print(
-                                                      'Is Favorite $_isFavorite)',
-                                                    );
-                                                  },
-                                                )),
-                                          ],
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text(
-                                          gridItemList[index].name ?? '',
-                                          style: color000000w50020.copyWith(),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                        ),
-                                        SizedBox(height: 5),
-                                        Text(
-                                          gridItemList[index].price ?? '',
-                                          style: color999999w40016.copyWith(
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            itemCount: gridItemList.length,
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: 25,
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       horizontal: 18.0, vertical: 10),
+                        //   child: Text(
+                        //     similarItems,
+                        //     style: color000000w60020,
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 350,
+                        //   child: ListView.builder(
+                        //     padding: EdgeInsets.symmetric(horizontal: 10),
+                        //     scrollDirection: Axis.horizontal,
+                        //     itemBuilder: (context, index) {
+                        //       return Padding(
+                        //         padding: const EdgeInsets.all(8.0),
+                        //         child: GestureDetector(
+                        //           onTap: () => Get.to(FeauturedScreen()),
+                        //           child: Container(
+                        //             width: 180,
+                        //             child: Column(
+                        //               crossAxisAlignment:
+                        //                   CrossAxisAlignment.start,
+                        //               children: [
+                        //                 Stack(
+                        //                   children: [
+                        //                     Image(
+                        //                       image: gridItemList[index].img,
+                        //                     ),
+                        //                     Positioned(
+                        //                         top: 10,
+                        //                         right: 12,
+                        //                         child: FavoriteButton(
+                        //                           iconColor: Colors.black,
+                        //                           iconSize: 35,
+                        //                           isFavorite: true,
+                        //                           valueChanged: (_isFavorite) {
+                        //                             print(
+                        //                               'Is Favorite $_isFavorite)',
+                        //                             );
+                        //                           },
+                        //                         )),
+                        //                   ],
+                        //                 ),
+                        //                 SizedBox(height: 10),
+                        //                 Text(
+                        //                   gridItemList[index].name ?? '',
+                        //                   style: color000000w50020.copyWith(),
+                        //                   overflow: TextOverflow.ellipsis,
+                        //                   maxLines: 2,
+                        //                 ),
+                        //                 SizedBox(height: 5),
+                        //                 Text(
+                        //                   gridItemList[index].price ?? '',
+                        //                   style: color999999w40016.copyWith(
+                        //                     fontSize: 18,
+                        //                   ),
+                        //                 ),
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       );
+                        //     },
+                        //     itemCount: gridItemList.length,
+                        //   ),
+                        // ),
                         SizedBox(
                           height: 20,
                         ),
@@ -745,12 +763,15 @@ class _ProductPageState extends State<ProductPage> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
         child: commonMatButton(
-            width: double.infinity,
-            onPressed: () {
-              Get.to(ShoppingCart());
-            },
-            txt: addToCart,
-            buttonColor: colorFFCA27),
+          width: double.infinity,
+          onPressed: () {
+            Get.to(
+              ShoppingCart(),
+            );
+          },
+          txt: addToCart,
+          buttonColor: cactusGreen,
+        ),
       ),
     );
   }

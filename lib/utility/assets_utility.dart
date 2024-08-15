@@ -79,14 +79,14 @@ class GridItems {
 }
 
 List<GridItems> gridItemList = [
-  GridItems(img: mask, name: productDetail, price: '\$9.99'),
-  GridItems(img: mask2, name: productDetail, price: '\$9.99'),
-  GridItems(img: mask3, name: productDetail, price: '\$9.99'),
-  GridItems(img: mask4, name: productDetail, price: '\$9.99'),
-  GridItems(img: mask, name: productDetail, price: '\$9.99'),
-  GridItems(img: mask2, name: productDetail, price: '\$9.99'),
-  GridItems(img: mask3, name: productDetail, price: '\$9.99'),
-  GridItems(img: mask4, name: productDetail, price: '\$9.99'),
+  GridItems(img: mask, name: productDetail, price: '₹ 9.99'),
+  GridItems(img: mask2, name: productDetail, price: '₹ 9.99'),
+  GridItems(img: mask3, name: productDetail, price: '₹ 9.99'),
+  GridItems(img: mask4, name: productDetail, price: '₹ 9.99'),
+  GridItems(img: mask, name: productDetail, price: '₹ 9.99'),
+  GridItems(img: mask2, name: productDetail, price: '₹ 9.99'),
+  GridItems(img: mask3, name: productDetail, price: '₹ 9.99'),
+  GridItems(img: mask4, name: productDetail, price: '₹ 9.99'),
 ];
 
 // List<Map<String, dynamic>> arrayList = [

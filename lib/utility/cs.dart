@@ -73,7 +73,7 @@ String loremTxt =
     '''Lorem Ipsum is simply dummy text    of the printing and typesetting industry.Lorem Ipsum has been the industry\'s standard dummy text ever since the1500s, when an unknown printer took agalley of type and scrambled it to make a type specimen book.''';
 String productTxt = 'Tables / Slide Tables';
 String productName = 'Olivia Shayn Military TV Cabinet';
-String productPrice = '\$1499.00';
+String productPrice = '1499.00';
 String color = 'Colors';
 String like = 'You may also like';
 String show = 'Show All';

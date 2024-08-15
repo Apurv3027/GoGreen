@@ -25,58 +25,41 @@ class WelcomePage extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(image: welcomeBg, fit: BoxFit.cover),
         ),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            const Image(
-              image: welcomeShadow,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(42.0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Spacer(),
-
-                    const Image(
-                      image: logo,
-                      height: 250,
-                    ),
-                    const Spacer(),
-                    // MaterialButton(
-                    //   onPressed: () {},
-                    //   child: Text("My text"),
-                    //   color: Colors.white,
-                    //   minWidth: double.infinity,
-                    //   height: 50,
-                    // ),
-
-                    commonWelcomeButton(
-                        onPressed: () {
-                          Get.to(LogIn());
-                        },
-                        buttonColor: colorFFFFFF,
-                        txt: login,
-                        minWidth: 500),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    commonWelcomeButton(
-                        onPressed: () {
-                          Get.to(const SignupPage());
-                        },
-                        // buttonColor: colorFFCA27,
-                        buttonColor: cactusGreen,
-                        txt: signUp,
-                        minWidth: 500),
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.all(42.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Spacer(),
+                commonWelcomeButton(
+                  onPressed: () {
+                    Get.to(
+                      LogIn(),
+                    );
+                  },
+                  buttonColor: colorFFFFFF,
+                  txt: login,
+                  minWidth: 500,
                 ),
-              ),
-            )
-          ],
+                const SizedBox(
+                  height: 15,
+                ),
+                commonWelcomeButton(
+                  onPressed: () {
+                    Get.to(
+                      const SignupPage(),
+                    );
+                  },
+                  // buttonColor: colorFFCA27,
+                  buttonColor: cactusGreen,
+                  txt: signUp,
+                  minWidth: 500,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

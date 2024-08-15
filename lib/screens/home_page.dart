@@ -107,22 +107,22 @@ class HomeScreen extends StatelessWidget {
           style: color000000w90018,
         ),
         centerTitle: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: InkWell(
-                onTap: () async {
-                  final result = await Get.to(NotificationBar());
-                  if (result != null) {
-                    print("result====>${result}");
-                  }
-                },
-                child: Image(
-                  image: notification,
-                  color: charcoalBlack,
-                )),
-          ),
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.all(10.0),
+        //     child: InkWell(
+        //         onTap: () async {
+        //           final result = await Get.to(NotificationBar());
+        //           if (result != null) {
+        //             print("result====>${result}");
+        //           }
+        //         },
+        //         child: Image(
+        //           image: notification,
+        //           color: charcoalBlack,
+        //         )),
+        //   ),
+        // ],
       ),
       drawer: DrawerScreen(),
       body: SingleChildScrollView(

@@ -41,51 +41,68 @@ class AddAddress extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: commonTextField(name: street1, suggestionTxt: enterStreet1, controller: street1Controller),
+              child: commonTextField(
+                  name: street1,
+                  suggestionTxt: enterStreet1,
+                  controller: street1Controller),
             ),
             SizedBox(
               height: 40,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: commonTextField(name: street1, suggestionTxt: enterStreet2, controller: street2Controller),
+              child: commonTextField(
+                  name: street1,
+                  suggestionTxt: enterStreet2,
+                  controller: street2Controller),
             ),
             SizedBox(
               height: 40,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: commonTextField(name: street2, suggestionTxt: enterMail, controller: emailController),
+              child: commonTextField(
+                  name: street2,
+                  suggestionTxt: enterMail,
+                  controller: emailController),
             ),
             SizedBox(
               height: 40,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: commonTextField(name: city, suggestionTxt: enterCity, controller: cityController),
+              child: commonTextField(
+                  name: city,
+                  suggestionTxt: enterCity,
+                  controller: cityController),
             ),
             SizedBox(
               height: 40,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: commonTextField(name: state, suggestionTxt: enterState, controller: stateController),
+              child: commonTextField(
+                  name: state,
+                  suggestionTxt: enterState,
+                  controller: stateController),
             ),
             SizedBox(
-              height: 145,
+              height: 40,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 50),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 18.0, vertical: 30),
               child: Align(
-                  alignment: Alignment.center,
-                  child:
-                  commonMatButton(
-                      width: double.infinity,
-                      onPressed: () {
-                        // Get.to();
-                      },
-                      txt: addNewAddress1,
-                      buttonColor: colorFFCA27)),
+                alignment: Alignment.center,
+                child: commonMatButton(
+                  width: double.infinity,
+                  onPressed: () {
+                    // Get.to();
+                  },
+                  txt: addNewAddress1,
+                  buttonColor: cactusGreen,
+                ),
+              ),
             ),
           ],
         ),

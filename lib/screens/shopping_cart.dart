@@ -48,22 +48,23 @@ class ShoppingCart extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
-                    child: Text(
-                      items,
-                      style: color000000w90020,
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(
+                  //       horizontal: 18.0, vertical: 10),
+                  //   child: Text(
+                  //     items,
+                  //     style: color000000w90020,
+                  //   ),
+                  // ),
                   SizedBox(
-                    height: 10,
+                    height: 30,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18.0),
                     child: Row(
                       children: [
                         Image(
-                          image: chairImg,
+                          image: lightImg,
                           height: 110,
                         ),
                         SizedBox(
@@ -73,7 +74,7 @@ class ShoppingCart extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              proname,
+                              light,
                               style: color000000w50020.copyWith(fontSize: 21),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -85,25 +86,29 @@ class ShoppingCart extends StatelessWidget {
                               productPrice,
                               style: color999999w40018.copyWith(fontSize: 17),
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 15,
-                                  width: 15,
-                                  decoration: BoxDecoration(color: color000000, borderRadius: BorderRadius.circular(50)),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  black,
-                                  style: color999999w50018.copyWith(fontWeight: FontWeight.normal, fontSize: 17),
-                                ),
-                              ],
-                            )
+                            // SizedBox(
+                            //   height: 5,
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     Container(
+                            //       height: 15,
+                            //       width: 15,
+                            //       decoration: BoxDecoration(
+                            //           color: color000000,
+                            //           borderRadius: BorderRadius.circular(50)),
+                            //     ),
+                            //     SizedBox(
+                            //       width: 10,
+                            //     ),
+                            //     Text(
+                            //       black,
+                            //       style: color999999w50018.copyWith(
+                            //           fontWeight: FontWeight.normal,
+                            //           fontSize: 17),
+                            //     ),
+                            //   ],
+                            // )
                           ],
                         )
                       ],
@@ -139,25 +144,29 @@ class ShoppingCart extends StatelessWidget {
                               productPrice,
                               style: color999999w40018.copyWith(fontSize: 17),
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 15,
-                                  width: 15,
-                                  decoration: BoxDecoration(color: colorFFCA27, borderRadius: BorderRadius.circular(50)),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  yellow,
-                                  style: color999999w50018.copyWith(fontWeight: FontWeight.normal, fontSize: 17),
-                                ),
-                              ],
-                            )
+                            // SizedBox(
+                            //   height: 5,
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     Container(
+                            //       height: 15,
+                            //       width: 15,
+                            //       decoration: BoxDecoration(
+                            //           color: colorFFCA27,
+                            //           borderRadius: BorderRadius.circular(50)),
+                            //     ),
+                            //     SizedBox(
+                            //       width: 10,
+                            //     ),
+                            //     Text(
+                            //       yellow,
+                            //       style: color999999w50018.copyWith(
+                            //           fontWeight: FontWeight.normal,
+                            //           fontSize: 17),
+                            //     ),
+                            //   ],
+                            // )
                           ],
                         )
                       ],
@@ -193,25 +202,29 @@ class ShoppingCart extends StatelessWidget {
                               productPrice,
                               style: color999999w40018.copyWith(fontSize: 17),
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 15,
-                                  width: 15,
-                                  decoration: BoxDecoration(color: colorFFCA27, borderRadius: BorderRadius.circular(50)),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  yellow,
-                                  style: color999999w50018.copyWith(fontWeight: FontWeight.normal, fontSize: 17),
-                                ),
-                              ],
-                            )
+                            // SizedBox(
+                            //   height: 5,
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     Container(
+                            //       height: 15,
+                            //       width: 15,
+                            //       decoration: BoxDecoration(
+                            //           color: colorFFCA27,
+                            //           borderRadius: BorderRadius.circular(50)),
+                            //     ),
+                            //     SizedBox(
+                            //       width: 10,
+                            //     ),
+                            //     Text(
+                            //       yellow,
+                            //       style: color999999w50018.copyWith(
+                            //           fontWeight: FontWeight.normal,
+                            //           fontSize: 17),
+                            //     ),
+                            //   ],
+                            // )
                           ],
                         )
                       ],
@@ -247,29 +260,36 @@ class ShoppingCart extends StatelessWidget {
                               productPrice,
                               style: color999999w40018.copyWith(fontSize: 17),
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 15,
-                                  width: 15,
-                                  decoration: BoxDecoration(color: colorFFCA27, borderRadius: BorderRadius.circular(50)),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  yellow,
-                                  style: color999999w50018.copyWith(fontWeight: FontWeight.normal, fontSize: 17),
-                                ),
-                              ],
-                            )
+                            // SizedBox(
+                            //   height: 5,
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     Container(
+                            //       height: 15,
+                            //       width: 15,
+                            //       decoration: BoxDecoration(
+                            //           color: colorFFCA27,
+                            //           borderRadius: BorderRadius.circular(50)),
+                            //     ),
+                            //     SizedBox(
+                            //       width: 10,
+                            //     ),
+                            //     Text(
+                            //       yellow,
+                            //       style: color999999w50018.copyWith(
+                            //           fontWeight: FontWeight.normal,
+                            //           fontSize: 17),
+                            //     ),
+                            //   ],
+                            // )
                           ],
                         )
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: 30,
                   ),
                 ],
               ),
@@ -292,21 +312,24 @@ class ShoppingCart extends StatelessWidget {
                   children: [
                     Text(
                       shippingFee,
-                      style: color999999w50018.copyWith(fontWeight: FontWeight.normal),
+                      style: color999999w50018.copyWith(
+                          fontWeight: FontWeight.normal),
                     ),
                     SizedBox(
                       height: 8,
                     ),
                     Text(
                       subTotal,
-                      style: color999999w50018.copyWith(fontWeight: FontWeight.normal),
+                      style: color999999w50018.copyWith(
+                          fontWeight: FontWeight.normal),
                     ),
                     SizedBox(
                       height: 8,
                     ),
                     Text(
                       total,
-                      style: color000000w50020.copyWith(fontWeight: FontWeight.normal),
+                      style: color000000w50020.copyWith(
+                          fontWeight: FontWeight.normal),
                     ),
                     // Text(
                     //   dimensions,
@@ -346,13 +369,17 @@ class ShoppingCart extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
             child: Align(
-                alignment: Alignment.center,
-                child: commonMatButton(
-                    onPressed: () {
-                      Get.to(AdressPage());
-                    },
-                    txt: checkOut,
-                    buttonColor: colorFFCA27)),
+              alignment: Alignment.center,
+              child: commonMatButton(
+                onPressed: () {
+                  Get.to(
+                    AdressPage(),
+                  );
+                },
+                txt: checkOut,
+                buttonColor: cactusGreen,
+              ),
+            ),
           ),
         ],
       ),

@@ -23,17 +23,17 @@ bool isChecked1 = false;
 class _AdressPageState extends State<AdressPage> {
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.red;
-      }
-      return colorFFCA27;
-    }
+    // Color getColor(Set<MaterialState> states) {
+    //   const Set<MaterialState> interactiveStates = <MaterialState>{
+    //     MaterialState.pressed,
+    //     MaterialState.hovered,
+    //     MaterialState.focused,
+    //   };
+    //   if (states.any(interactiveStates.contains)) {
+    //     return Colors.red;
+    //   }
+    //   return colorFFCA27;
+    // }
 
     return Scaffold(
       backgroundColor: colorFFFFFF,
@@ -107,7 +107,10 @@ class _AdressPageState extends State<AdressPage> {
                         Text(
                           editTxt,
                           style: colorFFCA27w50018.copyWith(
-                              fontWeight: FontWeight.w800, fontSize: 19),
+                            fontWeight: FontWeight.w800,
+                            fontSize: 19,
+                            color: cactusGreen,
+                          ),
                         ),
                       ],
                     ),
@@ -148,7 +151,7 @@ class _AdressPageState extends State<AdressPage> {
                             // ),
                             child: Theme(
                               child: Checkbox(
-                                activeColor: colorFFCA27,
+                                activeColor: cactusGreen,
                                 focusColor: Colors.black,
                                 visualDensity:
                                     VisualDensity(horizontal: -4, vertical: -4),
@@ -158,6 +161,9 @@ class _AdressPageState extends State<AdressPage> {
                                 onChanged: (bool? value) {
                                   setState(() {
                                     isChecked = value!;
+                                    if (isChecked) {
+                                      isChecked1 = false;
+                                    }
                                   });
                                 },
                               ),
@@ -172,12 +178,13 @@ class _AdressPageState extends State<AdressPage> {
                         SizedBox(
                           width: 10,
                         ),
-                        SizedBox(
-                          height: 28,
-                          width: 300,
-                          child: Text(
-                            checkBoxTxt,
-                            style: color000000w50020.copyWith(fontSize: 18),
+                        Expanded(
+                          child: SizedBox(
+                            height: 28,
+                            child: Text(
+                              checkBoxTxt,
+                              style: color000000w50020.copyWith(fontSize: 18),
+                            ),
                           ),
                         ),
                       ],
@@ -220,7 +227,10 @@ class _AdressPageState extends State<AdressPage> {
                         Text(
                           editTxt,
                           style: colorFFCA27w50018.copyWith(
-                              fontWeight: FontWeight.w800, fontSize: 19),
+                            fontWeight: FontWeight.w800,
+                            fontSize: 19,
+                            color: cactusGreen,
+                          ),
                         ),
                       ],
                     ),
@@ -247,7 +257,7 @@ class _AdressPageState extends State<AdressPage> {
                             width: 20,
                             child: Theme(
                               child: Checkbox(
-                                activeColor: colorFFCA27,
+                                activeColor: cactusGreen,
                                 focusColor: Colors.black,
                                 visualDensity:
                                     VisualDensity(horizontal: -4, vertical: -4),
@@ -257,6 +267,9 @@ class _AdressPageState extends State<AdressPage> {
                                 onChanged: (bool? value) {
                                   setState(() {
                                     isChecked1 = value!;
+                                    if (isChecked1) {
+                                      isChecked = false;
+                                    }
                                   });
                                 },
                               ),
@@ -271,12 +284,13 @@ class _AdressPageState extends State<AdressPage> {
                         SizedBox(
                           width: 10,
                         ),
-                        SizedBox(
-                          height: 28,
-                          width: 300,
-                          child: Text(
-                            checkBoxTxt,
-                            style: color000000w50020.copyWith(fontSize: 18),
+                        Expanded(
+                          child: SizedBox(
+                            height: 28,
+                            child: Text(
+                              checkBoxTxt,
+                              style: color000000w50020.copyWith(fontSize: 18),
+                            ),
                           ),
                         ),
                       ],
