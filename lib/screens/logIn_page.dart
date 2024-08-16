@@ -1,3 +1,4 @@
+import 'package:go_green/admin/screens/admin_home_page.dart';
 import 'package:go_green/screens/forget_page.dart';
 import 'package:go_green/screens/home_page.dart';
 import 'package:go_green/screens/signup_page.dart';
@@ -138,13 +139,30 @@ class _LogInState extends State<LogIn> {
                 height: 40,
               ),
               Align(
-                  alignment: Alignment.center,
-                  child: commonMatButton(
-                      onPressed: () {
-                        Get.offAll(const HomeScreen());
-                      },
-                      txt: logIn,
-                      buttonColor: cactusGreen)),
+                alignment: Alignment.center,
+                child: commonMatButton(
+                  // onPressed: () {
+                  //   Get.offAll(
+                  //     const HomeScreen(),
+                  //   );
+                  // },
+                  onPressed: () {
+                    String email = emailController.text.trim();
+
+                    if (email == "admin@gmail.com") {
+                      Get.offAll(
+                        const AdminHomeScreen(),
+                      );
+                    } else {
+                      Get.offAll(
+                        const HomeScreen(),
+                      );
+                    }
+                  },
+                  txt: logIn,
+                  buttonColor: cactusGreen,
+                ),
+              ),
             ],
           ),
         ),

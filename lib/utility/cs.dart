@@ -129,3 +129,16 @@ String reOrder = 'RE-ORDER';
 String reset = 'Reset Password';
 String addressTxt = 'Address';
 String shippingFee = 'Shipping Fee';
+
+// Admin
+
+String admin = 'Admin Panel';
+String adminUsername = 'Hello, Admin';
+String adminUser = 'Admin';
+String adminMail = 'admin@gmail.com';
+String adminDashboard = 'Dashboard';
+String adminUserDetails = 'User Details';
+String adminProduct = 'Products';
+String adminCategory = 'Category';
+String adminBanners = 'Banners';
+String adminOrderDetails = 'Order Details';
