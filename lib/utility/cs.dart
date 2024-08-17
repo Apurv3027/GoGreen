@@ -142,3 +142,10 @@ String adminProduct = 'Products';
 String adminCategory = 'Category';
 String adminBanners = 'Banners';
 String adminOrderDetails = 'Order Details';
+
+String bannerName = "Banner Name";
+String bannerNameEX = "Banner 1";
+String bannerImageUrl = "Banner Image URL";
+String bannerImageUrlEX = "https://www.image.com";
+String bannerDescription = "Banner Description";
+String bannerDescriptionEX = "Banner Description";
