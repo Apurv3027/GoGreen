@@ -5,32 +5,19 @@ import 'package:go_green/admin/utility/adminCommonMaterialButton.dart';
 import 'package:go_green/utility/color_utilities.dart';
 import 'package:image_picker/image_picker.dart';
 
-// class AddCategoryScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Add New Category'),
-//         backgroundColor: cactusGreen,
-//       ),
-//       body: Center(child: Text('Add new category functionality goes here')),
-//     );
-//   }
-// }
-
-class AddCategoryScreen extends StatefulWidget {
-  const AddCategoryScreen({super.key});
+class AddProductScreen extends StatefulWidget {
+  const AddProductScreen({super.key});
 
   @override
-  State<AddCategoryScreen> createState() => _AddCategoryScreenState();
+  State<AddProductScreen> createState() => _AddProductScreenState();
 }
 
-class _AddCategoryScreenState extends State<AddCategoryScreen> {
+class _AddProductScreenState extends State<AddProductScreen> {
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-
+  final TextEditingController _priceController = TextEditingController();
   File? _pickedImage;
 
   Future<void> _pickImage() async {
@@ -50,25 +37,28 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
     }
   }
 
-  void _submitCategory() {
+  void _submitProduct() {
     if (_formKey.currentState!.validate()) {
       // Handle the submission of the form
       String name = _nameController.text;
       String description = _descriptionController.text;
+      String price = _priceController.text;
 
       // Print the values to the console (in real applications, this data would be sent to a backend or saved to a database)
-      print("Category Name: $name");
-      print("Category Description: $description");
-      print("Category Image Path: ${_pickedImage?.path}");
+      print("Product Name: $name");
+      print("Product Description: $description");
+      print("Product Price: $price");
+      print("Product Image Path: ${_pickedImage?.path}");
 
       // Show a confirmation message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Category Added Successfully')),
+        SnackBar(content: Text('Product Added Successfully')),
       );
 
       // Clear the form
       _nameController.clear();
       _descriptionController.clear();
+      _priceController.clear();
       setState(() {
         _pickedImage = null;
       });
@@ -79,7 +69,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add New Category'),
+        title: Text('Add New Product'),
         backgroundColor: cactusGreen,
       ),
       body: Padding(
@@ -91,13 +81,13 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
-                  labelText: 'Category Name',
-                  hintText: 'Enter category name',
+                  labelText: 'Product Name',
+                  hintText: 'Enter product name',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a category name';
+                    return 'Please enter a product name';
                   }
                   return null;
                 },
@@ -120,8 +110,8 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(
-                  labelText: 'Category Description',
-                  hintText: 'Enter category description',
+                  labelText: 'Product Description',
+                  hintText: 'Enter product description',
                   border: OutlineInputBorder(),
                 ),
                 maxLines: 3,
@@ -132,10 +122,29 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                   return null;
                 },
               ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _priceController,
+                decoration: InputDecoration(
+                  labelText: 'Product Price',
+                  hintText: 'Enter product price',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a price';
+                  }
+                  if (double.tryParse(value) == null) {
+                    return 'Please enter a valid price';
+                  }
+                  return null;
+                },
+              ),
               SizedBox(height: 32),
               adminCommonMatButton(
-                onPressed: _submitCategory,
-                txt: 'Add Category',
+                onPressed: _submitProduct,
+                txt: 'Add Product',
                 buttonColor: cactusGreen,
               ),
             ],

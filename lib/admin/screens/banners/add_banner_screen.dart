@@ -6,19 +6,6 @@ import 'package:go_green/utility/color_utilities.dart';
 import 'package:go_green/utility/cs.dart';
 import 'package:image_picker/image_picker.dart';
 
-// class AddBannerScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Add New Banner'),
-//         backgroundColor: cactusGreen,
-//       ),
-//       body: Center(child: Text('Add new banner functionality goes here')),
-//     );
-//   }
-// }
-
 class AddBannerScreen extends StatefulWidget {
   const AddBannerScreen({super.key});
 
@@ -33,17 +20,6 @@ class _AddBannerScreenState extends State<AddBannerScreen> {
   final TextEditingController _descriptionController = TextEditingController();
 
   File? _pickedImage;
-
-  // Future<void> _pickImage() async {
-  //   final picker = ImagePicker();
-  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       _pickedImage = File(pickedFile.path);
-  //     });
-  //   }
-  // }
 
   Future<void> _pickImage() async {
     try {

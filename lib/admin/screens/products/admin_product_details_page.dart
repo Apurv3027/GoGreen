@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_green/admin/screens/products/add_product_screen.dart';
 import 'package:go_green/admin/screens/products/edit_product_details_screen.dart';
 import 'package:go_green/utility/color_utilities.dart';
 
@@ -176,7 +177,7 @@ class AdminProductDetailsPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Handle add new category
-          // Get.to(AddCategoryScreen());
+          Get.to(AddProductScreen());
         },
         backgroundColor: cactusGreen,
         child: Icon(Icons.add),
