@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_green/admin/screens/admin_drawer_screen.dart';
+import 'package:go_green/admin/screens/banners/admin_banner_details_page.dart';
+import 'package:go_green/admin/screens/category/admin_category_details_page.dart';
 import 'package:go_green/admin/screens/products/admin_product_details_page.dart';
 import 'package:go_green/admin/screens/users/admin_user_details_page.dart';
 import 'package:go_green/admin/utility/DashboardCard.dart';
@@ -100,6 +102,30 @@ class AdminHomeScreen extends StatelessWidget {
                     color: Colors.green,
                     onTap: () {
                       Get.to(AdminUserDetailsPage());
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DashboardCard(
+                    title: 'Categories',
+                    value: '320',
+                    icon: Icons.category,
+                    color: Colors.blue,
+                    onTap: () {
+                      Get.to(AdminCategoryDetailsPage());
+                    },
+                  ),
+                  DashboardCard(
+                    title: 'Banners',
+                    value: '500',
+                    icon: Icons.image,
+                    color: Colors.green,
+                    onTap: () {
+                      Get.to(AdminBannersDetailsPage());
                     },
                   ),
                 ],

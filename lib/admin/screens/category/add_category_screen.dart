@@ -88,6 +88,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
           key: _formKey,
           child: ListView(
             children: [
+              SizedBox(height: 16),
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(

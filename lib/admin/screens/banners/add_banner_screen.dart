@@ -1,5 +1,7 @@
 import 'dart:io';
-
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_green/admin/utility/adminCommonMaterialButton.dart';
 import 'package:go_green/utility/color_utilities.dart';
@@ -38,28 +40,99 @@ class _AddBannerScreenState extends State<AddBannerScreen> {
     }
   }
 
-  void _submitBanner() {
+  // void _submitBanner() {
+  //   if (_formKey.currentState!.validate()) {
+  //     // Handle the submission of the form
+  //     String name = _nameController.text;
+  //     String description = _descriptionController.text;
+  //
+  //     // Print the values to the console (in real applications, this data would be sent to a backend or saved to a database)
+  //     print("Banner Name: $name");
+  //     print("Banner Description: $description");
+  //     print("Banner Image Path: ${_pickedImage?.path}");
+  //
+  //     // Show a confirmation message
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Banner Added Successfully')),
+  //     );
+  //
+  //     // Clear the form
+  //     _nameController.clear();
+  //     _descriptionController.clear();
+  //     setState(() {
+  //       _pickedImage = null;
+  //     });
+  //   }
+  // }
+
+  Future<void> _submitBanner() async {
     if (_formKey.currentState!.validate()) {
-      // Handle the submission of the form
       String name = _nameController.text;
       String description = _descriptionController.text;
 
-      // Print the values to the console (in real applications, this data would be sent to a backend or saved to a database)
-      print("Banner Name: $name");
-      print("Banner Description: $description");
-      print("Banner Image Path: ${_pickedImage?.path}");
+      String? imageUrl;
 
-      // Show a confirmation message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Banner Added Successfully')),
+      if (_pickedImage != null) {
+        // Upload the image and get the URL
+        imageUrl = await _uploadImage(_pickedImage!);
+      }
+
+      // Prepare the data to be sent
+      var data = {
+        'banner_name': name,
+        'banner_description': description,
+        'banner_image_url': imageUrl,
+      };
+
+      // Send data to the server
+      var response = await http.post(
+        // Uri.parse('https://your-laravel-api-endpoint.com/api/banners'),
+        Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/add-banner'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data),
       );
 
-      // Clear the form
-      _nameController.clear();
-      _descriptionController.clear();
-      setState(() {
-        _pickedImage = null;
-      });
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Banner Added Successfully')),
+        );
+        _nameController.clear();
+        _descriptionController.clear();
+        setState(() {
+          _pickedImage = null;
+        });
+        Get.back();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to add banner')),
+        );
+      }
+    }
+  }
+
+  Future<String?> _uploadImage(File imageFile) async {
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+          // Uri.parse('https://your-laravel-api-endpoint.com/api/upload'),
+          Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/upload-banner-image'),
+      );
+      request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        var responseData = await response.stream.bytesToString();
+        var jsonResponse = jsonDecode(responseData);
+        return jsonResponse['banner_image_url'];
+      } else {
+        print('Failed to upload image');
+        return null;
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+      return null;
     }
   }
 
@@ -76,6 +149,7 @@ class _AddBannerScreenState extends State<AddBannerScreen> {
           key: _formKey,
           child: ListView(
             children: [
+              SizedBox(height: 16),
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
@@ -89,20 +163,6 @@ class _AddBannerScreenState extends State<AddBannerScreen> {
                   }
                   return null;
                 },
-              ),
-              SizedBox(height: 16),
-              GestureDetector(
-                onTap: _pickImage,
-                child: Container(
-                  height: 150,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: _pickedImage == null
-                      ? Center(child: Text('Tap to select image'))
-                      : Image.file(_pickedImage!, fit: BoxFit.cover),
-                ),
               ),
               SizedBox(height: 16),
               TextFormField(
@@ -119,6 +179,26 @@ class _AddBannerScreenState extends State<AddBannerScreen> {
                   }
                   return null;
                 },
+              ),
+              SizedBox(height: 16),
+              GestureDetector(
+                // onTap: _pickImage,
+                onTap: () async {
+                  await _pickImage(); // First, pick the image
+                  if (_pickedImage != null) {
+                    await _uploadImage(_pickedImage!); // Then, upload it
+                  }
+                },
+                child: Container(
+                  height: 150,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: _pickedImage == null
+                      ? Center(child: Text('Tap to select image'))
+                      : Image.file(_pickedImage!, fit: BoxFit.cover),
+                ),
               ),
               SizedBox(height: 32),
               // ElevatedButton(
