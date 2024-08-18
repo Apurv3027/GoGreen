@@ -18,6 +18,8 @@ class _AdminBannersDetailsPageState extends State<AdminBannersDetailsPage> {
 
   late Future<List<Map<String, dynamic>>> _bannersFuture;
 
+  String defaultURL = "assets/img/Welcome_WhiteLogo.png";
+
   @override
   void initState() {
     super.initState();
@@ -118,23 +120,17 @@ class _AdminBannersDetailsPageState extends State<AdminBannersDetailsPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // Banner Image
-                                // Image.network(
-                                //   bannersList[index]['image'] ?? 'default_image_url',
-                                //   height: 180,
-                                //   width: double.infinity,
-                                //   fit: BoxFit.cover,
-                                // ),
-                                Image.asset(
-                                  'assets/img/Welcome_WhiteLogo.png',
+                                Image.network(
+                                  bannersList[index]['image'] ?? defaultURL,
                                   height: 180,
                                   width: double.infinity,
                                   fit: BoxFit.cover,
                                 ),
                                 SizedBox(height: 10),
 
-                                // Banner Title
+                                // Banner ID
                                 Text(
-                                  bannersList[index]['title'] ?? 'No Title',
+                                  'ID: ' + bannersList[index]['id'] ?? 'No Title',
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -142,9 +138,21 @@ class _AdminBannersDetailsPageState extends State<AdminBannersDetailsPage> {
                                 ),
                                 SizedBox(height: 5),
 
+                                // Banner Title
+                                Text(
+                                  'Name: ' + bannersList[index]['title'] ?? 'No Title',
+                                  style: TextStyle(
+                                    // fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+
                                 // Banner Description
                                 Text(
-                                  bannersList[index]['description'] ?? 'No Description',
+                                  'Description: ' + bannersList[index]['description'] ?? 'No Description',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey[600],

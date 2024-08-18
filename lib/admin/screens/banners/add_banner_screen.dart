@@ -100,10 +100,10 @@ class _AddBannerScreenState extends State<AddBannerScreen> {
         );
         _nameController.clear();
         _descriptionController.clear();
+        Get.back();
         setState(() {
           _pickedImage = null;
         });
-        Get.back();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to add banner')),
