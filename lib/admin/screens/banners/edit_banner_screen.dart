@@ -28,12 +28,15 @@ class _EditBannerScreenState extends State<EditBannerScreen> {
 
   File? _pickedImage;
 
+  String? imageUrl;
+
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.bannerData['title']);
     _descriptionController =
         TextEditingController(text: widget.bannerData['description']);
+    imageUrl = widget.bannerData['image'];
   }
 
   @override
@@ -48,8 +51,6 @@ class _EditBannerScreenState extends State<EditBannerScreen> {
       // Get the current description
       String name = _titleController.text;
       String description = _descriptionController.text;
-
-      String? imageUrl;
 
       if (_pickedImage != null) {
         // Upload the image and get the URL

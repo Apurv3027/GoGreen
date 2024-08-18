@@ -1,4 +1,5 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:go_green/screens/categories_product_page.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,64 @@ import '../utility/color_utilities.dart';
 import '../utility/cs.dart';
 import '../utility/text_utils.dart';
 
-class CategoryPage extends StatelessWidget {
-  const CategoryPage({Key? key}) : super(key: key);
+class CategoryPage extends StatefulWidget {
+  const CategoryPage({super.key});
+
+  @override
+  State<CategoryPage> createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends State<CategoryPage> {
+
+  List<Map<String, dynamic>> categoriesList = [];
+  String defaultURL = "assets/img/Welcome_WhiteLogo.png"; // Default image URL
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+  }
+
+  Future<void> fetchCategories() async {
+    try {
+      final response = await http.get(
+        Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/categories'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      // Print the raw response for debugging
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        var responseData = jsonDecode(response.body);
+
+        // Check if responseData is a Map and contains the list
+        if (responseData is Map<String, dynamic> && responseData.containsKey('categories')) {
+          List<dynamic> categories = responseData['categories'];
+
+          setState(() {
+            categoriesList = List<Map<String, dynamic>>.from(categories.map((category) {
+              return {
+                'id': category['id'],
+                'name': category['category_name'],
+                // 'items': category['category_item_count'],
+                'img': category['category_image_url'],
+              };
+            }));
+          });
+        } else {
+          throw Exception('Unexpected response format');
+        }
+      } else {
+        throw Exception('Failed to load categories');
+      }
+    } catch (e) {
+      print('Error fetching categories: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +94,9 @@ class CategoryPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: ListView.separated(
+        child: categoriesList.isEmpty
+            ? Center(child: CircularProgressIndicator()) // Show loader while fetching data
+            : ListView.separated(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
@@ -47,30 +106,35 @@ class CategoryPage extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  Image(
-                    image: categoriesList[index].img,
-                    height: 120,
+                  Container(
+                    width: 120, // Fixed width for image
+                    height: 120, // Fixed height for image
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8), // Optional: rounded corners
+                    ),
+                    child: Image.network(
+                      categoriesList[index]['img'] ?? defaultURL,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  SizedBox(
-                    width: 20,
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          categoriesList[index]['name'] ?? '',
+                          style: color000000w90022,
+                        ),
+                        // SizedBox(height: 20),
+                        // Text(
+                        //   'Items: ${categoriesList[index]['items'] ?? ''}',
+                        //   style: color999999w40018,
+                        // ),
+                      ],
+                    ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        categoriesList[index].name ?? '',
-                        style: color000000w90022,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        categoriesList[index].items ?? '',
-                        style: color999999w40018,
-                      ),
-                    ],
-                  ),
-                  Spacer(),
                   Icon(
                     Icons.arrow_right,
                     size: 30,

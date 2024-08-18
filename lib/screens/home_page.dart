@@ -6,6 +6,8 @@ import 'package:go_green/screens/categories_page.dart';
 import 'package:go_green/screens/featured_page.dart';
 import 'package:go_green/screens/notification.dart';
 import 'package:go_green/screens/product_page.dart';
+import 'package:go_green/screens/widgets/BannerSliderWidget.dart';
+import 'package:go_green/screens/widgets/CategoriesWidget.dart';
 import 'package:go_green/utility/assets_utility.dart';
 import 'package:go_green/utility/color_utilities.dart';
 import 'package:go_green/utility/text_utils.dart';
@@ -187,41 +189,44 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: 145,
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 9),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: categoriesList.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => Get.to(CategoryPage()),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 9.0, vertical: 5),
-                            child: Image(
-                              image: categoriesList[index]['img'],
-                              height: 95,
-                            ),
-                          ),
-                          Text(
-                            categoriesList[index]['name'],
-                            style: color999999w50018,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+
+            // Display Category on Home Page
+            CategoriesWidget(),
+            // SizedBox(
+            //   height: 145,
+            //   child: ListView.builder(
+            //     padding: EdgeInsets.symmetric(horizontal: 9),
+            //     shrinkWrap: true,
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: categoriesList.length,
+            //     itemBuilder: (context, index) {
+            //       return GestureDetector(
+            //         onTap: () => Get.to(CategoryPage()),
+            //         child: Container(
+            //           child: Column(
+            //             children: [
+            //               SizedBox(
+            //                 height: 10,
+            //               ),
+            //               Padding(
+            //                 padding: const EdgeInsets.symmetric(
+            //                     horizontal: 9.0, vertical: 5),
+            //                 child: Image(
+            //                   image: categoriesList[index]['img'],
+            //                   height: 95,
+            //                 ),
+            //               ),
+            //               Text(
+            //                 categoriesList[index]['name'],
+            //                 style: color999999w50018,
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
@@ -230,53 +235,54 @@ class HomeScreen extends StatelessWidget {
                 style: color000000w90020,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: Stack(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: const Image(
-                      image: collectionBg,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20.0, right: 100, left: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          friday,
-                          style: color999999w40022,
-                        ),
-                        Text(
-                          arrivals,
-                          style: color000000w90038,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        SizedBox(
-                          height: 35,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              shop,
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline),
-                            ),
-                            Icon(Icons.skip_next)
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            BannerSliderWidget(),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            //   child: Stack(
+            //     children: [
+            //       SizedBox(
+            //         width: MediaQuery.of(context).size.width,
+            //         child: const Image(
+            //           image: collectionBg,
+            //           fit: BoxFit.cover,
+            //         ),
+            //       ),
+            //       Padding(
+            //         padding:
+            //             const EdgeInsets.only(top: 20.0, right: 100, left: 15),
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text(
+            //               friday,
+            //               style: color999999w40022,
+            //             ),
+            //             Text(
+            //               arrivals,
+            //               style: color000000w90038,
+            //             ),
+            //             SizedBox(
+            //               width: 5,
+            //             ),
+            //             SizedBox(
+            //               height: 35,
+            //             ),
+            //             Row(
+            //               children: [
+            //                 Text(
+            //                   shop,
+            //                   style: TextStyle(
+            //                       decoration: TextDecoration.underline),
+            //                 ),
+            //                 Icon(Icons.skip_next)
+            //               ],
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(height: 15),
             Padding(
               padding:

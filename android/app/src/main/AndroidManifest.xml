@@ -7,7 +7,8 @@
     <application
         android:label="go_green"
         android:name="${applicationName}"
-        android:icon="@mipmap/welcome_logowhite">
+        android:icon="@mipmap/welcome_logowhite"
+        android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
