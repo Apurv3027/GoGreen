@@ -68,7 +68,7 @@ class _EditBannerScreenState extends State<EditBannerScreen> {
       var response = await http.post(
         // Update banner endpoint
         Uri.parse(
-            'https://tortoise-new-emu.ngrok-free.app/api/banners/${widget.bannerData['id']}'),
+            liveApiDomain + 'api/banners/${widget.bannerData['id']}'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -113,7 +113,7 @@ class _EditBannerScreenState extends State<EditBannerScreen> {
         'POST',
         // Uri.parse('https://your-laravel-api-endpoint.com/api/upload'),
         Uri.parse(
-            'https://tortoise-new-emu.ngrok-free.app/api/upload-banner-image'),
+            liveApiDomain + 'api/upload-banner-image'),
       );
       request.files
           .add(await http.MultipartFile.fromPath('image', imageFile.path));

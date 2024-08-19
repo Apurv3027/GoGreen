@@ -63,7 +63,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
       var response = await http.post(
         // Update banner endpoint
         Uri.parse(
-            'https://tortoise-new-emu.ngrok-free.app/api/categories/${widget.categoryData['id']}'),
+            liveApiDomain + 'api/categories/${widget.categoryData['id']}'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -107,7 +107,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
         'POST',
         // Uri.parse('https://your-laravel-api-endpoint.com/api/upload'),
         Uri.parse(
-            'https://tortoise-new-emu.ngrok-free.app/api/upload-category-image'),
+            liveApiDomain + 'api/upload-category-image'),
       );
       request.files
           .add(await http.MultipartFile.fromPath('image', imageFile.path));
@@ -146,8 +146,8 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                 TextFormField(
                   controller: _titleController,
                   decoration: InputDecoration(
-                    labelText: bannerName,
-                    hintText: bannerNameEX,
+                    labelText: "Category Name",
+                    hintText: "Category 1",
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {

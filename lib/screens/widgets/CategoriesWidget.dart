@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_green/utility/cs.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -13,8 +14,6 @@ class CategoriesWidget extends StatefulWidget {
 class _CategoriesWidgetState extends State<CategoriesWidget> {
   List<Map<String, dynamic>> categoriesList = [];
 
-  String defaultURL = "assets/img/Welcome_WhiteLogo.png";
-
   @override
   void initState() {
     super.initState();
@@ -24,7 +23,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
   Future<void> fetchCategories() async {
     try {
       final response = await http.get(
-        Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/categories'),
+        Uri.parse(liveApiDomain + 'api/categories'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -66,15 +65,17 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
     return SizedBox(
       height: 200,
       child: categoriesList.isEmpty
+          // ? Center(
+          //     child: CircularProgressIndicator(),
+          //   )
           ? Center(
-              child:
-                  CircularProgressIndicator()) // Show a loader while fetching data
+              child: Text('No categories found'),
+            )
           : ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 9),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              // itemCount: categoriesList.length,
-              itemCount: 4,
+              itemCount: categoriesList.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {},

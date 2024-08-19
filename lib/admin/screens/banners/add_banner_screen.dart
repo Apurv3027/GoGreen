@@ -40,31 +40,6 @@ class _AddBannerScreenState extends State<AddBannerScreen> {
     }
   }
 
-  // void _submitBanner() {
-  //   if (_formKey.currentState!.validate()) {
-  //     // Handle the submission of the form
-  //     String name = _nameController.text;
-  //     String description = _descriptionController.text;
-  //
-  //     // Print the values to the console (in real applications, this data would be sent to a backend or saved to a database)
-  //     print("Banner Name: $name");
-  //     print("Banner Description: $description");
-  //     print("Banner Image Path: ${_pickedImage?.path}");
-  //
-  //     // Show a confirmation message
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Banner Added Successfully')),
-  //     );
-  //
-  //     // Clear the form
-  //     _nameController.clear();
-  //     _descriptionController.clear();
-  //     setState(() {
-  //       _pickedImage = null;
-  //     });
-  //   }
-  // }
-
   Future<void> _submitBanner() async {
     if (_formKey.currentState!.validate()) {
       String name = _nameController.text;
@@ -86,8 +61,7 @@ class _AddBannerScreenState extends State<AddBannerScreen> {
 
       // Send data to the server
       var response = await http.post(
-        // Uri.parse('https://your-laravel-api-endpoint.com/api/banners'),
-        Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/add-banner'),
+        Uri.parse(liveApiDomain + 'api/add-banner'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -116,8 +90,7 @@ class _AddBannerScreenState extends State<AddBannerScreen> {
     try {
       var request = http.MultipartRequest(
         'POST',
-          // Uri.parse('https://your-laravel-api-endpoint.com/api/upload'),
-          Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/upload-banner-image'),
+          Uri.parse(liveApiDomain + 'api/upload-banner-image'),
       );
       request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
       var response = await request.send();

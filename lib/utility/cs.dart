@@ -149,3 +149,7 @@ String bannerImageUrl = "Banner Image URL";
 String bannerImageUrlEX = "https://www.image.com";
 String bannerDescription = "Banner Description";
 String bannerDescriptionEX = "Banner Description";
+
+// Live APIs
+String liveApiDomain = "https://tortoise-new-emu.ngrok-free.app/";
+String defaultURL = "https://tortoise-new-emu.ngrok-free.app/storage/banners/Cq3MnivU3U3pBU7oP1Zt28rClWE1CWhwV6WvRa8Q.png";

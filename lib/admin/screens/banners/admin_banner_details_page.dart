@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:go_green/admin/screens/banners/add_banner_screen.dart';
 import 'package:go_green/admin/screens/banners/edit_banner_screen.dart';
 import 'package:go_green/utility/color_utilities.dart';
+import 'package:go_green/utility/cs.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -32,7 +33,7 @@ class _AdminBannersDetailsPageState extends State<AdminBannersDetailsPage> {
   Future<List<Map<String, dynamic>>> fetchBanners() async {
     try {
       final response = await http.get(
-        Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/banners'),
+        Uri.parse(liveApiDomain + 'api/banners'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -52,7 +53,7 @@ class _AdminBannersDetailsPageState extends State<AdminBannersDetailsPage> {
             // Construct the full URL if needed (assuming URLs are relative)
             String imageUrl = banner['banner_image_url'] ?? 'default_image_url';
             if (imageUrl.startsWith('/')) {
-              imageUrl = 'https://tortoise-new-emu.ngrok-free.app/storage' + imageUrl;
+              imageUrl = liveApiDomain + 'storage' + imageUrl;
             }
 
             return {

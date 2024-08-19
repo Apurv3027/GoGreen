@@ -18,9 +18,7 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-
   List<Map<String, dynamic>> categoriesList = [];
-  String defaultURL = "assets/img/Welcome_WhiteLogo.png"; // Default image URL
 
   @override
   void initState() {
@@ -31,7 +29,7 @@ class _CategoryPageState extends State<CategoryPage> {
   Future<void> fetchCategories() async {
     try {
       final response = await http.get(
-        Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/categories'),
+        Uri.parse(liveApiDomain + 'api/categories'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -45,15 +43,17 @@ class _CategoryPageState extends State<CategoryPage> {
         var responseData = jsonDecode(response.body);
 
         // Check if responseData is a Map and contains the list
-        if (responseData is Map<String, dynamic> && responseData.containsKey('categories')) {
+        if (responseData is Map<String, dynamic> &&
+            responseData.containsKey('categories')) {
           List<dynamic> categories = responseData['categories'];
 
           setState(() {
-            categoriesList = List<Map<String, dynamic>>.from(categories.map((category) {
+            categoriesList =
+                List<Map<String, dynamic>>.from(categories.map((category) {
               return {
                 'id': category['id'],
                 'name': category['category_name'],
-                // 'items': category['category_item_count'],
+                'items': category['category_item_count'],
                 'img': category['category_image_url'],
               };
             }));
@@ -92,64 +92,72 @@ class _CategoryPageState extends State<CategoryPage> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: categoriesList.isEmpty
-            ? Center(child: CircularProgressIndicator()) // Show loader while fetching data
-            : ListView.separated(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                Get.to(CategoriesProductPage());
-              },
-              child: Row(
-                children: [
-                  Container(
-                    width: 120, // Fixed width for image
-                    height: 120, // Fixed height for image
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8), // Optional: rounded corners
-                    ),
-                    child: Image.network(
-                      categoriesList[index]['img'] ?? defaultURL,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          categoriesList[index]['name'] ?? '',
-                          style: color000000w90022,
-                        ),
-                        // SizedBox(height: 20),
-                        // Text(
-                        //   'Items: ${categoriesList[index]['items'] ?? ''}',
-                        //   style: color999999w40018,
-                        // ),
-                      ],
-                    ),
-                  ),
-                  Icon(
-                    Icons.arrow_right,
-                    size: 30,
-                  ),
-                ],
-              ),
-            );
-          },
-          itemCount: categoriesList.length,
-          separatorBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Divider(),
-            );
-          },
+      body: RefreshIndicator(
+        onRefresh: () async{
+          await fetchCategories();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: categoriesList.isEmpty
+              ? Center(
+                  child:
+                      CircularProgressIndicator()) // Show loader while fetching data
+              : ListView.separated(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(CategoriesProductPage());
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 120, // Fixed width for image
+                            height: 120, // Fixed height for image
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  8), // Optional: rounded corners
+                            ),
+                            child: Image.network(
+                              categoriesList[index]['img'] ?? defaultURL,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  categoriesList[index]['name'] ?? '',
+                                  style: color000000w90022,
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  'Items: ${categoriesList[index]['items'] ?? ''}',
+                                  style: color999999w40018,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_right,
+                            size: 30,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: categoriesList.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Divider(),
+                    );
+                  },
+                ),
         ),
       ),
     );

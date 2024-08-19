@@ -124,6 +124,7 @@ import 'package:get/get.dart';
 import 'package:go_green/admin/screens/category/add_category_screen.dart';
 import 'package:go_green/admin/screens/category/edit_category_screen.dart';
 import 'package:go_green/utility/color_utilities.dart';
+import 'package:go_green/utility/cs.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -152,7 +153,7 @@ class _AdminCategoryDetailsPageState extends State<AdminCategoryDetailsPage> {
   Future<List<Map<String, dynamic>>> fetchCategories() async {
     try {
       final response = await http.get(
-        Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/categories'),
+        Uri.parse(liveApiDomain + 'api/categories'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -172,7 +173,7 @@ class _AdminCategoryDetailsPageState extends State<AdminCategoryDetailsPage> {
             // Construct the full URL if needed (assuming URLs are relative)
             String imageUrl = category['category_image_url'] ?? defaultURL;
             if (imageUrl.startsWith('/')) {
-              imageUrl = 'https://tortoise-new-emu.ngrok-free.app/storage' + imageUrl;
+              imageUrl = liveApiDomain + 'storage' + imageUrl;
             }
 
             return {
@@ -332,7 +333,7 @@ class _AdminCategoryDetailsPageState extends State<AdminCategoryDetailsPage> {
                 // Perform delete operation
                 var categoryId = categoriesList[index]['id'];
                 var response = await http.delete(
-                  Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/categories/$categoryId'),
+                  Uri.parse(liveApiDomain + 'api/categories/$categoryId'),
                   headers: {
                     'Content-Type': 'application/json',
                   },

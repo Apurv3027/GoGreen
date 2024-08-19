@@ -3,58 +3,82 @@ import 'package:get/get.dart';
 import 'package:go_green/admin/screens/products/add_product_screen.dart';
 import 'package:go_green/admin/screens/products/edit_product_details_screen.dart';
 import 'package:go_green/utility/color_utilities.dart';
+import 'package:go_green/utility/cs.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class AdminProductDetailsPage extends StatelessWidget {
-  const AdminProductDetailsPage({Key? key}) : super(key: key);
+class AdminProductDetailsPage extends StatefulWidget {
+  const AdminProductDetailsPage({super.key});
+
+  @override
+  State<AdminProductDetailsPage> createState() =>
+      _AdminProductDetailsPageState();
+}
+
+class _AdminProductDetailsPageState extends State<AdminProductDetailsPage> {
+  late Future<List<Map<String, dynamic>>> _productsFuture;
+
+  String defaultURL = "assets/img/Welcome_WhiteLogo.png";
+
+  @override
+  void initState() {
+    super.initState();
+    // _categoriesFuture = fetchCategories();
+    setState(() {
+      _productsFuture = fetchProducts();
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> fetchProducts() async {
+    try {
+      final response = await http.get(
+        Uri.parse(liveApiDomain + 'api/products'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}'); // Print raw response
+
+      if (response.statusCode == 200) {
+        var responseData = jsonDecode(response.body);
+
+        // Check if responseData is a Map and contains a key with the list
+        if (responseData is Map<String, dynamic> &&
+            responseData.containsKey('products')) {
+          List<dynamic> productsData = responseData['products'];
+
+          return productsData.map((category) {
+            // Construct the full URL if needed (assuming URLs are relative)
+            String imageUrl = category['product_image_url'] ?? defaultURL;
+            if (imageUrl.startsWith('/')) {
+              imageUrl = liveApiDomain + 'storage' + imageUrl;
+            }
+
+            return {
+              'id': category['id'].toString() ?? '0',
+              'image': imageUrl,
+              'title': category['product_name'] ?? 'No Data',
+              'price': category['product_price'] ?? 'No Data',
+              'description': category['product_description'] ?? 'No Data',
+              'category': category['product_category'] ?? 'No Data',
+            };
+          }).toList();
+        } else {
+          throw Exception('Unexpected response format');
+        }
+      } else {
+        throw Exception('Failed to load products');
+      }
+    } catch (e) {
+      print('Error fetching products: $e');
+      rethrow;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Example product data list (in a real app, this would come from a database)
-    List<Map<String, dynamic>> productList = [
-      {
-        'image': 'assets/img/Chair.png',
-        'name': 'Wooden Chair',
-        'description': 'High-quality wooden chair',
-        'price': '\$120.00',
-        'stock': 'Available',
-      },
-      {
-        'image': 'assets/img/Lamps.png',
-        'name': 'Modern Lamp',
-        'description': 'Elegant modern lamp for home',
-        'price': '\$80.00',
-        'stock': 'Available',
-      },
-      {
-        'image': 'assets/img/Ceiling.png',
-        'name': 'Coffee Table',
-        'description': 'Stylish coffee table',
-        'price': '\$150.00',
-        'stock': 'Out of Stock',
-      },
-      {
-        'image': 'assets/img/Chair.png',
-        'name': 'Wooden Chair',
-        'description': 'High-quality wooden chair',
-        'price': '\$120.00',
-        'stock': 'Available',
-      },
-      {
-        'image': 'assets/img/Lamps.png',
-        'name': 'Modern Lamp',
-        'description': 'Elegant modern lamp for home',
-        'price': '\$80.00',
-        'stock': 'Available',
-      },
-      {
-        'image': 'assets/img/Ceiling.png',
-        'name': 'Coffee Table',
-        'description': 'Stylish coffee table',
-        'price': '\$150.00',
-        'stock': 'Out of Stock',
-      },
-    ];
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -62,118 +86,335 @@ class AdminProductDetailsPage extends StatelessWidget {
         ),
         backgroundColor: cactusGreen,
       ),
-      body: Padding(
-        padding: EdgeInsets.only(bottom: 80.0),
-        child: ListView.builder(
-          padding: EdgeInsets.all(16),
-          itemCount: productList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
-              child: Card(
-                margin: EdgeInsets.symmetric(vertical: 10),
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Product Image
-                      Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(productList[index]['image']),
-                            fit: BoxFit.cover,
-                          ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          // Refresh the banners data
+          setState(() {
+            _productsFuture = fetchProducts();
+          });
+        },
+        child: FutureBuilder<List<Map<String, dynamic>>>(
+          future: _productsFuture,
+          builder: (context, snapshot) {
+            print('Snapshot connection state: ${snapshot.connectionState}');
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              print('Snapshot error: ${snapshot.error}');
+              return Center(child: Text('Failed to load products'));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              print('No products found');
+              return Center(child: Text('No products found'));
+            } else {
+              final productsList = snapshot.data!;
+              print('Product loaded: ${productsList.length}');
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 80.0),
+                child: ListView.builder(
+                  itemCount: productsList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0, horizontal: 5.0),
+                      child: Card(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      SizedBox(width: 15),
-
-                      // Product Details
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Product Name
-                            Text(
-                              productList[index]['name'],
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Product Image
+                              Container(
+                                height: 100,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      productsList[index]['image'] ??
+                                          defaultURL,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 5),
+                              SizedBox(width: 15),
 
-                            // Product Description
-                            Text(
-                              productList[index]['description'],
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            SizedBox(height: 10),
+                              // Product Details
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Product Name
+                                    Text(
+                                      productsList[index]['title'] ??
+                                          defaultURL,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
 
-                            // Product Price
-                            Text(
-                              'Price: ${productList[index]['price']}',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 5),
+                                    // Product Description
+                                    Text(
+                                      productsList[index]['description'] ??
+                                          defaultURL,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
 
-                            // Product Stock Status
-                            Text(
-                              'Stock: ${productList[index]['stock']}',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: productList[index]['stock'] == 'Available'
-                                    ? Colors.green
-                                    : Colors.red,
+                                    // Product Price
+                                    Text(
+                                      '₹ ' + productsList[index]['price'],
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+
+                                    // Product Stock Status
+                                    // Text(
+                                    //   'Stock: ${productList[index]['stock']}',
+                                    //   style: TextStyle(
+                                    //     fontSize: 16,
+                                    //     color: productList[index]['stock'] ==
+                                    //             'Available'
+                                    //         ? Colors.green
+                                    //         : Colors.red,
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+
+                              // Action Buttons (Edit/Delete)
+                              Column(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.edit),
+                                    color: Colors.blue,
+                                    onPressed: () {
+                                      // Handle product edit
+                                      Get.to(EditProductDetailsScreen(
+                                          productData: productsList[index]));
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      _confirmDelete(context, index, productsList);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                    );
 
-                      // Action Buttons (Edit/Delete)
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.edit),
-                            color: Colors.blue,
-                            onPressed: () {
-                              // Handle product edit
-                              Get.to(EditProductDetailsScreen(product: productList[index]));
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete),
-                            color: Colors.red,
-                            onPressed: () {
-                              // Handle product delete
-                              // _showDeleteConfirmationDialog(context, productList[index]);
-                              _confirmDelete(context, index, productList);
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                    // return Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       vertical: 8.0, horizontal: 16.0),
+                    //   child: Card(
+                    //     margin: const EdgeInsets.symmetric(vertical: 10),
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.all(10.0),
+                    //       child: Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         children: [
+                    //           // Category Image
+                    //           Image.network(
+                    //             categoriesList[index]['image'] ?? defaultURL,
+                    //             height: 180,
+                    //             width: double.infinity,
+                    //             fit: BoxFit.cover,
+                    //           ),
+                    //           SizedBox(height: 10),
+                    //
+                    //           // Category ID
+                    //           Text(
+                    //             'ID: ' + categoriesList[index]['id'] ??
+                    //                 'No Title',
+                    //             style: TextStyle(
+                    //               fontSize: 20,
+                    //               fontWeight: FontWeight.bold,
+                    //             ),
+                    //           ),
+                    //           SizedBox(height: 5),
+                    //
+                    //           // Category Title
+                    //           Text(
+                    //             'Name: ' + categoriesList[index]['title'] ??
+                    //                 'No Title',
+                    //             style: TextStyle(
+                    //               // fontSize: 20,
+                    //               // fontWeight: FontWeight.bold,
+                    //               fontSize: 16,
+                    //               color: Colors.grey[600],
+                    //             ),
+                    //           ),
+                    //           SizedBox(height: 10),
+                    //
+                    //           // Edit and Delete Actions
+                    //           Row(
+                    //             mainAxisAlignment: MainAxisAlignment.end,
+                    //             children: [
+                    //               IconButton(
+                    //                 icon: Icon(Icons.edit, color: Colors.blue),
+                    //                 onPressed: () {
+                    //                   // Handle edit category
+                    //                   // Get.to(EditProductDetailsScreen(
+                    //                   //     categoryData: categoriesList[index]));
+                    //                 },
+                    //               ),
+                    //               IconButton(
+                    //                 icon: Icon(Icons.delete, color: Colors.red),
+                    //                 onPressed: () {
+                    //                   // Handle delete category
+                    //                   _confirmDelete(
+                    //                       context, index, categoriesList);
+                    //                 },
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // );
+                  },
                 ),
-              ),
-            );
+              );
+            }
           },
         ),
       ),
+      // body: Padding(
+      //   padding: EdgeInsets.only(bottom: 80.0),
+      //   child: ListView.builder(
+      //     padding: EdgeInsets.all(16),
+      //     itemCount: productList.length,
+      //     itemBuilder: (context, index) {
+      //       return Padding(
+      //         padding:
+      //             const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+      //         child: Card(
+      //           margin: EdgeInsets.symmetric(vertical: 10),
+      //           elevation: 5,
+      //           shape: RoundedRectangleBorder(
+      //             borderRadius: BorderRadius.circular(10),
+      //           ),
+      //           child: Padding(
+      //             padding: EdgeInsets.all(16),
+      //             child: Row(
+      //               crossAxisAlignment: CrossAxisAlignment.start,
+      //               children: [
+      //                 // Product Image
+      //                 Container(
+      //                   height: 100,
+      //                   width: 100,
+      //                   decoration: BoxDecoration(
+      //                     image: DecorationImage(
+      //                       image: AssetImage(productList[index]['image']),
+      //                       fit: BoxFit.cover,
+      //                     ),
+      //                     borderRadius: BorderRadius.circular(10),
+      //                   ),
+      //                 ),
+      //                 SizedBox(width: 15),
+      //
+      //                 // Product Details
+      //                 Expanded(
+      //                   child: Column(
+      //                     crossAxisAlignment: CrossAxisAlignment.start,
+      //                     children: [
+      //                       // Product Name
+      //                       Text(
+      //                         productList[index]['name'],
+      //                         style: TextStyle(
+      //                           fontSize: 20,
+      //                           fontWeight: FontWeight.bold,
+      //                         ),
+      //                       ),
+      //                       SizedBox(height: 5),
+      //
+      //                       // Product Description
+      //                       Text(
+      //                         productList[index]['description'],
+      //                         style: TextStyle(
+      //                           fontSize: 16,
+      //                           color: Colors.grey[700],
+      //                         ),
+      //                       ),
+      //                       SizedBox(height: 10),
+      //
+      //                       // Product Price
+      //                       Text(
+      //                         'Price: ${productList[index]['price']}',
+      //                         style: TextStyle(
+      //                           fontSize: 18,
+      //                           color: Colors.black,
+      //                         ),
+      //                       ),
+      //                       SizedBox(height: 5),
+      //
+      //                       // Product Stock Status
+      //                       Text(
+      //                         'Stock: ${productList[index]['stock']}',
+      //                         style: TextStyle(
+      //                           fontSize: 16,
+      //                           color:
+      //                               productList[index]['stock'] == 'Available'
+      //                                   ? Colors.green
+      //                                   : Colors.red,
+      //                         ),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 ),
+      //
+      //                 // Action Buttons (Edit/Delete)
+      //                 Column(
+      //                   children: [
+      //                     IconButton(
+      //                       icon: Icon(Icons.edit),
+      //                       color: Colors.blue,
+      //                       onPressed: () {
+      //                         // Handle product edit
+      //                         Get.to(EditProductDetailsScreen(
+      //                             product: productList[index]));
+      //                       },
+      //                     ),
+      //                     IconButton(
+      //                       icon: Icon(Icons.delete),
+      //                       color: Colors.red,
+      //                       onPressed: () {
+      //                         // Handle product delete
+      //                         // _showDeleteConfirmationDialog(context, productList[index]);
+      //                         _confirmDelete(context, index, productList);
+      //                       },
+      //                     ),
+      //                   ],
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //   ),
+      // ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Handle add new category
@@ -186,7 +427,7 @@ class AdminProductDetailsPage extends StatelessWidget {
   }
 
   void _confirmDelete(
-      BuildContext context, int index, List<Map<String, dynamic>> productList) {
+      BuildContext context, int index, List<Map<String, dynamic>> productsList) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -202,12 +443,27 @@ class AdminProductDetailsPage extends StatelessWidget {
             ),
             TextButton(
               child: Text('Delete', style: TextStyle(color: Colors.red)),
-              onPressed: () {
+              onPressed: () async {
                 // Perform delete operation
-                productList.removeAt(index);
-                Navigator.of(context).pop();
-                // Get.snackbar('Deleted', 'Product deleted successfully');
-                Get.snackbar('Deleted', 'Product ${index + 1} deleted successfully');
+                var productId = productsList[index]['id'];
+                var response = await http.delete(
+                  Uri.parse(liveApiDomain + 'api/products/$productId'),
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                );
+
+                if (response.statusCode == 200) {
+                  productsList.removeAt(index);
+                  Navigator.of(context).pop();
+                  Get.snackbar('Deleted', 'Product ${index + 1} deleted successfully');
+                  setState(() {
+                    _productsFuture = fetchProducts();
+                  });
+                } else {
+                  Navigator.of(context).pop();
+                  Get.snackbar('Error', 'Failed to delete product');
+                }
               },
             ),
           ],
@@ -215,34 +471,4 @@ class AdminProductDetailsPage extends StatelessWidget {
       },
     );
   }
-
-  // Delete Confirmation Dialog
-  // void _showDeleteConfirmationDialog(
-  //     BuildContext context, Map<String, dynamic> product) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Delete Product'),
-  //         content: Text('Are you sure you want to delete ${product['name']}?'),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: Text('Cancel'),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //           TextButton(
-  //             child: Text('Delete'),
-  //             onPressed: () {
-  //               // Handle delete action
-  //               Navigator.of(context).pop();
-  //               // Here you would typically call a method to remove the product from the list or database
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 }

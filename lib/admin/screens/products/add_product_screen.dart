@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_green/admin/utility/adminCommonMaterialButton.dart';
 import 'package:go_green/utility/color_utilities.dart';
+import 'package:go_green/utility/cs.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -15,9 +19,11 @@ class AddProductScreen extends StatefulWidget {
 class _AddProductScreenState extends State<AddProductScreen> {
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _productNameController = TextEditingController();
+  final TextEditingController _productPriceController = TextEditingController();
+  final TextEditingController _productDescriptionController = TextEditingController();
+  final TextEditingController _productCategoryController = TextEditingController();
+
   File? _pickedImage;
 
   Future<void> _pickImage() async {
@@ -37,31 +43,79 @@ class _AddProductScreenState extends State<AddProductScreen> {
     }
   }
 
-  void _submitProduct() {
+  Future<void> _submitProduct() async {
     if (_formKey.currentState!.validate()) {
-      // Handle the submission of the form
-      String name = _nameController.text;
-      String description = _descriptionController.text;
-      String price = _priceController.text;
+      String productName = _productNameController.text;
+      String productPrice = _productPriceController.text;
+      String productDescription = _productDescriptionController.text;
+      String productCategory = _productCategoryController.text;
 
-      // Print the values to the console (in real applications, this data would be sent to a backend or saved to a database)
-      print("Product Name: $name");
-      print("Product Description: $description");
-      print("Product Price: $price");
-      print("Product Image Path: ${_pickedImage?.path}");
+      String? imageUrl;
 
-      // Show a confirmation message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Product Added Successfully')),
+      if (_pickedImage != null) {
+        // Upload the image and get the URL
+        imageUrl = await _uploadImage(_pickedImage!);
+      }
+
+      // Prepare the data to be sent
+      var data = {
+        'product_name': productName,
+        'product_price': productPrice,
+        'product_image_url': imageUrl,
+        'product_description': productDescription,
+        'product_category': productCategory,
+      };
+
+      // Send data to the server
+      var response = await http.post(
+        Uri.parse(liveApiDomain + 'api/add-product'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data),
       );
 
-      // Clear the form
-      _nameController.clear();
-      _descriptionController.clear();
-      _priceController.clear();
-      setState(() {
-        _pickedImage = null;
-      });
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Product Added Successfully')),
+        );
+        _productNameController.clear();
+        _productPriceController.clear();
+        _productDescriptionController.clear();
+        _productCategoryController.clear();
+        Get.back();
+        setState(() {
+          _pickedImage = null;
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to add product')),
+        );
+      }
+    }
+  }
+
+  Future<String?> _uploadImage(File imageFile) async {
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        // Uri.parse('https://your-laravel-api-endpoint.com/api/upload'),
+        Uri.parse(liveApiDomain + 'api/upload-product-image'),
+      );
+      request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        var responseData = await response.stream.bytesToString();
+        var jsonResponse = jsonDecode(responseData);
+        return jsonResponse['product_image_url'];
+      } else {
+        print('Failed to upload image');
+        return null;
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+      return null;
     }
   }
 
@@ -80,7 +134,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             children: [
               SizedBox(height: 16),
               TextFormField(
-                controller: _nameController,
+                controller: _productNameController,
                 decoration: InputDecoration(
                   labelText: 'Product Name',
                   hintText: 'Enter product name',
@@ -89,6 +143,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a product name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _productPriceController,
+                decoration: InputDecoration(
+                  labelText: 'Product Price',
+                  hintText: 'Enter product price',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a product price';
                   }
                   return null;
                 },
@@ -109,7 +178,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ),
               SizedBox(height: 16),
               TextFormField(
-                controller: _descriptionController,
+                controller: _productDescriptionController,
                 decoration: InputDecoration(
                   labelText: 'Product Description',
                   hintText: 'Enter product description',
@@ -125,19 +194,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ),
               SizedBox(height: 16),
               TextFormField(
-                controller: _priceController,
+                controller: _productCategoryController,
                 decoration: InputDecoration(
-                  labelText: 'Product Price',
-                  hintText: 'Enter product price',
+                  labelText: 'Product Category',
+                  hintText: 'Enter product category',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a price';
-                  }
-                  if (double.tryParse(value) == null) {
-                    return 'Please enter a valid price';
+                    return 'Please enter a category';
                   }
                   return null;
                 },

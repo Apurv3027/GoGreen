@@ -60,7 +60,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
       // Send data to the server
       var response = await http.post(
         // Uri.parse('https://your-laravel-api-endpoint.com/api/banners'),
-        Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/add-category'),
+        Uri.parse(liveApiDomain + 'api/add-category'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -89,7 +89,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
       var request = http.MultipartRequest(
         'POST',
         // Uri.parse('https://your-laravel-api-endpoint.com/api/upload'),
-        Uri.parse('https://tortoise-new-emu.ngrok-free.app/api/upload-category-image'),
+        Uri.parse(liveApiDomain + 'api/upload-category-image'),
       );
       request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
       var response = await request.send();
@@ -125,8 +125,8 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
-                  labelText: bannerName,
-                  hintText: bannerNameEX,
+                  labelText: "Category Name",
+                  hintText: "Category 1",
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
