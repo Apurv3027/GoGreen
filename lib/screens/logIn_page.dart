@@ -13,6 +13,8 @@ import '../utility/commonMaterialButton.dart';
 import '../utility/commonTextField.dart';
 import '../utility/cs.dart';
 import '../utility/text_utils.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -30,6 +32,47 @@ class _LogInState extends State<LogIn> {
 
   TextEditingController phoneController = TextEditingController();
   bool _isObscure = false;
+
+  // Function to handle login
+  Future<void> loginUser() async{
+    final String apiUrl = liveApiDomain + 'api/login';
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        body: {
+          'email': emailController.text,
+          'password': passwordController.text,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+
+        if (responseData['status'] == 'success') {
+          // Check if the user is an admin based on your user data
+          String email = emailController.text;
+          if (email == "admin@gmail.com") {
+            Get.snackbar('Success', 'Admin Login Successfully.', snackPosition: SnackPosition.TOP);
+            Get.offAll(const AdminHomeScreen());
+          } else {
+            Get.snackbar('Success', 'User Login Successfully.', snackPosition: SnackPosition.TOP);
+            Get.offAll(const HomeScreen());
+          }
+        } else {
+          // Show error message
+          Get.snackbar('Error', responseData['message'], snackPosition: SnackPosition.TOP);
+        }
+      } else {
+        // Show error message for any other status code
+        Get.snackbar('Error', 'Invalid login credentials. Please try again.', snackPosition: SnackPosition.TOP);
+      }
+    } catch (e) {
+      // Handle any other exceptions
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.TOP);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,17 +190,21 @@ class _LogInState extends State<LogIn> {
                   //   );
                   // },
                   onPressed: () {
-                    String email = emailController.text.trim();
 
-                    if (email == "admin@gmail.com") {
-                      Get.offAll(
-                        const AdminHomeScreen(),
-                      );
-                    } else {
-                      Get.offAll(
-                        const HomeScreen(),
-                      );
-                    }
+                    // Call the login API method
+                    loginUser();
+
+                    // String email = emailController.text.trim();
+                    //
+                    // if (email == "admin@gmail.com") {
+                    //   Get.offAll(
+                    //     const AdminHomeScreen(),
+                    //   );
+                    // } else {
+                    //   Get.offAll(
+                    //     const HomeScreen(),
+                    //   );
+                    // }
                   },
                   txt: logIn,
                   buttonColor: cactusGreen,

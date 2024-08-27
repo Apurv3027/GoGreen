@@ -1,19 +1,14 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'dart:ui';
 
 import 'package:go_green/screens/categories_page.dart';
 import 'package:go_green/screens/featured_page.dart';
-import 'package:go_green/screens/notification.dart';
-import 'package:go_green/screens/product_page.dart';
 import 'package:go_green/screens/widgets/BannerSliderWidget.dart';
 import 'package:go_green/screens/widgets/CategoriesWidget.dart';
 import 'package:go_green/screens/widgets/HomePageProductWidget.dart';
-import 'package:go_green/utility/assets_utility.dart';
 import 'package:go_green/utility/color_utilities.dart';
 import 'package:go_green/utility/text_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:favorite_button/favorite_button.dart';
 import 'package:get/get.dart';
 
 import '../utility/cs.dart';

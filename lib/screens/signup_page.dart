@@ -13,6 +13,8 @@ import '../utility/assets_utility.dart';
 import '../utility/commonMaterialButton.dart';
 import '../utility/commonTextField.dart';
 import '../utility/text_utils.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -23,13 +25,57 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   bool _isObscure = false;
+
+  // Controllers for text fields
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+
+  // Method to register user
+  Future<void> registerUser() async {
+    final String apiUrl = liveApiDomain + 'api/register';
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        body: {
+          'fullname': nameController.text,
+          'email': emailController.text,
+          'password': passwordController.text,
+          'mobile_number': phoneController.text,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Decode the response
+        final Map<String, dynamic> responseData = json.decode(response.body);
+
+        if (responseData['status'] == 'success') {
+          // Navigate to OTP Verification screen if registration is successful
+          // Get.to(OtpVerification());
+
+          Get.snackbar('Success', 'Register Successfully.',
+              snackPosition: SnackPosition.TOP);
+          Get.offAll(LogIn());
+        } else {
+          // Show error message
+          Get.snackbar('Error', responseData['message'],
+              snackPosition: SnackPosition.TOP);
+        }
+      } else {
+        // Show error message for any other status code
+        Get.snackbar('Error', 'Failed to register. Please try again.',
+            snackPosition: SnackPosition.TOP);
+      }
+    } catch (e) {
+      // Handle any other exceptions
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController phoneController = TextEditingController();
-
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -138,13 +184,20 @@ class _SignupPageState extends State<SignupPage> {
                 height: 40,
               ),
               Align(
-                  alignment: Alignment.center,
-                  child: commonMatButton(
-                      onPressed: () {
-                        Get.to(OtpVerification());
-                      },
-                      txt: signUp,
-                      buttonColor: cactusGreen)),
+                alignment: Alignment.center,
+                child: commonMatButton(
+                  onPressed: () {
+                    // Call the register API method
+                    registerUser();
+
+                    // Get.to(
+                    //   OtpVerification(),
+                    // );
+                  },
+                  txt: signUp,
+                  buttonColor: cactusGreen,
+                ),
+              ),
             ],
           ),
         ),
