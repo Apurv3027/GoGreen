@@ -3,6 +3,7 @@
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_green/screens/product_page.dart';
 
 import '../utility/color_utilities.dart';
 import '../utility/cs.dart';
@@ -109,50 +110,55 @@ class _FeauturedScreenState extends State<FeauturedScreen> {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    Image.network(
-                      productsList[index]['img'] ?? defaultURL,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      top: 10,
-                      right: 10,
-                      child: FavoriteButton(
-                        iconColor: cactusGreen,
-                        iconSize: 35,
-                        isFavorite: true,
-                        valueChanged: (_isFavorite) {
-                          print(
-                            'Is Favorite $_isFavorite)',
-                          );
-                        },
+            child: GestureDetector(
+              onTap: () {
+                Get.to(ProductPage(productId: productsList[index]['id'],));
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      Image.network(
+                        productsList[index]['img'] ?? defaultURL,
+                        height: 200,
+                        fit: BoxFit.cover,
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  productsList[index]['name'] ?? '',
-                  style: TextStyle(
-                    color: color000000,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'Poppins',
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: FavoriteButton(
+                          iconColor: cactusGreen,
+                          iconSize: 35,
+                          isFavorite: true,
+                          valueChanged: (_isFavorite) {
+                            print(
+                              'Is Favorite $_isFavorite)',
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Text(
-                  productsList[index]['price'] ?? '',
-                  style: color999999w40020,
-                ),
-              ],
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    productsList[index]['name'] ?? '',
+                    style: TextStyle(
+                      color: color000000,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                  Text(
+                    productsList[index]['price'] ?? '',
+                    style: color999999w40020,
+                  ),
+                ],
+              ),
             ),
           );
         },

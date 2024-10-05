@@ -84,7 +84,7 @@ class _HomePageProductWidgetState extends State<HomePageProductWidget> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(ProductPage());
+                      Get.to(ProductPage(productId: productsList[index]['id'],));
                     },
                     child: Container(
                       width: 200,
