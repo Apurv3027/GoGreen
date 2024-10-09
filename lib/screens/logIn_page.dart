@@ -15,6 +15,7 @@ import '../utility/cs.dart';
 import '../utility/text_utils.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -34,6 +35,11 @@ class _LogInState extends State<LogIn> {
   bool _isObscure = false;
 
   // Function to handle login
+  Future<void> storeUserId(int userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('user_id', userId);
+  }
+
   Future<void> loginUser() async{
     final String apiUrl = liveApiDomain + 'api/login';
 
@@ -52,12 +58,16 @@ class _LogInState extends State<LogIn> {
         if (responseData['status'] == 'success') {
           // Check if the user is an admin based on your user data
           String email = emailController.text;
+
+          int userId = responseData['data']['user']['id']; // assuming this is where the user ID is
+          await storeUserId(userId);
+
           if (email == "admin@gmail.com") {
             Get.snackbar('Success', 'Admin Login Successfully.', snackPosition: SnackPosition.TOP);
             Get.offAll(const AdminHomeScreen());
           } else {
             Get.snackbar('Success', 'User Login Successfully.', snackPosition: SnackPosition.TOP);
-            Get.offAll(const HomeScreen());
+            Get.offAll(HomeScreen());
           }
         } else {
           // Show error message

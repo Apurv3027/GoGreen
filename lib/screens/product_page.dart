@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_green/screens/shopping_cart.dart';
 import 'package:go_green/utility/assets_utility.dart';
 import 'package:go_green/utility/color_utilities.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utility/commonMaterialButton.dart';
 import '../utility/cs.dart';
@@ -34,6 +36,11 @@ class _ProductPageState extends State<ProductPage> {
     _productFuture = fetchProductDetails(widget.productId);
   }
 
+  Future<int?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('user_id'); // returns null if not found
+  }
+
   Future<Map<String, dynamic>> fetchProductDetails(int productId) async {
     final response = await http.get(
       Uri.parse(liveApiDomain + 'api/products/$productId'),
@@ -49,6 +56,52 @@ class _ProductPageState extends State<ProductPage> {
       return jsonDecode(response.body);
     } else {
       throw Exception('Failed to load product details');
+    }
+  }
+
+  // Add to Cart
+  Future<void> addToCartProduct(int userId, int productId, int quantity) async {
+    final url = Uri.parse(liveApiDomain + 'api/cart/add');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'user_id': userId,
+          'product_id': productId,
+          'quantity': quantity,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Show success toast
+        Fluttertoast.showToast(
+          msg: "Product added to cart successfully!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
+      } else {
+        // Show error toast
+        Fluttertoast.showToast(
+          msg: "Failed to add product to cart.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+        );
+      }
+    } catch (e) {
+      // Show error message in case of an exception
+      Fluttertoast.showToast(
+        msg: "An error occurred: $e",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
     }
   }
 
@@ -217,10 +270,16 @@ class _ProductPageState extends State<ProductPage> {
         padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
         child: commonMatButton(
           width: double.infinity,
-          onPressed: () {
-            Get.to(
-              ShoppingCart(),
-            );
+          onPressed: () async{
+            // addToCartProduct(1, widget.productId, 1)
+
+            int? userId = await getUserId();
+            if (userId != null) {
+              addToCartProduct(userId, widget.productId, 1);
+            } else {
+              // Handle user not logged in case
+              print("User not logged in");
+            }
           },
           txt: addToCart,
           buttonColor: cactusGreen,

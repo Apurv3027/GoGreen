@@ -23,17 +23,6 @@ bool isChecked1 = false;
 class _AdressPageState extends State<AdressPage> {
   @override
   Widget build(BuildContext context) {
-    // Color getColor(Set<MaterialState> states) {
-    //   const Set<MaterialState> interactiveStates = <MaterialState>{
-    //     MaterialState.pressed,
-    //     MaterialState.hovered,
-    //     MaterialState.focused,
-    //   };
-    //   if (states.any(interactiveStates.contains)) {
-    //     return Colors.red;
-    //   }
-    //   return colorFFCA27;
-    // }
 
     return Scaffold(
       backgroundColor: colorFFFFFF,
@@ -101,7 +90,7 @@ class _AdressPageState extends State<AdressPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          user,
+                          userD,
                           style: color000000w90020,
                         ),
                         Text(
@@ -135,20 +124,6 @@ class _AdressPageState extends State<AdressPage> {
                           child: SizedBox(
                             height: 20,
                             width: 20,
-                            // child: Theme(
-                            //   child: Checkbox(
-                            //     value: false,
-                            //     onChanged: (bool? value) {
-                            //       setState(() {
-                            //         isChecked = value!;
-                            //       });
-                            //     },
-                            //   ),
-                            //   data: ThemeData(
-                            //     primarySwatch: Colors.blue,
-                            //     unselectedWidgetColor: Colors.grey, // Your color
-                            //   ),
-                            // ),
                             child: Theme(
                               child: Checkbox(
                                 activeColor: cactusGreen,
@@ -221,7 +196,7 @@ class _AdressPageState extends State<AdressPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          user,
+                          userD,
                           style: color000000w90020,
                         ),
                         Text(

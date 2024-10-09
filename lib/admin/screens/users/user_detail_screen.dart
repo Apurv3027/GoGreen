@@ -1,85 +1,108 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_green/admin/utility/adminCommonMaterialButton.dart';
 import 'package:go_green/utility/color_utilities.dart';
+import 'package:go_green/utility/cs.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class UserDetailScreen extends StatelessWidget {
-  final Map<String, String> user;
+class UserDetailScreen extends StatefulWidget {
 
-  const UserDetailScreen({Key? key, required this.user}) : super(key: key);
+  final String userId;
+
+  const UserDetailScreen({super.key, required this.userId});
+
+  @override
+  State<UserDetailScreen> createState() => _UserDetailScreenState();
+}
+
+class _UserDetailScreenState extends State<UserDetailScreen> {
+
+  Map<String, dynamic>? user;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserDetails(widget.userId);
+  }
+
+  Future<void> fetchUserDetails(String userId) async {
+    final url = liveApiDomain + 'api/users/$userId';// Replace with your API URL
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        setState(() {
+          user = json.decode(response.body)['user'];
+          isLoading = false;
+        });
+      } else {
+        print('Failed to load user');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (error) {
+      print('Error fetching user: $error');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${user['name']} Details'),
+        title: Text(user != null ? '${user!['fullname']} Details' : 'User Details'),
         backgroundColor: cactusGreen,
       ),
-      body: Padding(
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : user != null
+          ? Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Name: ${user['name']}',
+              'Name: ${user!['fullname']}',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
             Text(
-              'Email: ${user['email']}',
+              'Email: ${user!['email']}',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 10),
             Text(
-              'Phone: ${user['phone']}',
+              'Phone: ${user!['mobile_number']}',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 20),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     // Implement edit user functionality here
-            //     print('Edit user: ${user['name']}');
-            //   },
-            //   child: Text('Edit User'),
-            //   style: ElevatedButton.styleFrom(
-            //     backgroundColor: Colors.blue,
-            //     padding: EdgeInsets.symmetric(vertical: 16),
-            //     textStyle: TextStyle(fontSize: 18),
-            //   ),
-            // ),
             adminCommonMatButton(
               onPressed: () {
-                // Implement edit user functionality here
-                print('Edit user: ${user['name']}');
+                print('Edit user: ${user!['fullname']}');
+                Get.snackbar('Success', 'Edit user: ${user!['fullname']}', snackPosition: SnackPosition.BOTTOM);
               },
               txt: 'Edit User',
-              // buttonColor: cactusGreen,
               buttonColor: Colors.blue,
             ),
             SizedBox(height: 10),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     // Implement delete user functionality here
-            //     print('Delete user: ${user['name']}');
-            //   },
-            //   child: Text('Delete User'),
-            //   style: ElevatedButton.styleFrom(
-            //     backgroundColor: Colors.red,
-            //     padding: EdgeInsets.symmetric(vertical: 16),
-            //     textStyle: TextStyle(fontSize: 18),
-            //   ),
-            // ),
             adminCommonMatButton(
               onPressed: () {
-                // Implement edit user functionality here
-                print('Delete user: ${user['name']}');
+                print('Delete user: ${user!['fullname']}');
+                Get.snackbar('Success', 'Delete user: ${user!['fullname']}', snackPosition: SnackPosition.BOTTOM);
               },
               txt: 'Delete User',
-              // buttonColor: cactusGreen,
               buttonColor: Colors.red,
             ),
           ],
         ),
-      ),
+      )
+          : Center(child: Text('User not found')),
     );
   }
 }

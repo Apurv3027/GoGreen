@@ -3,6 +3,7 @@
 
 import 'package:go_green/screens/categories_page.dart';
 import 'package:go_green/screens/featured_page.dart';
+import 'package:go_green/screens/shopping_cart.dart';
 import 'package:go_green/screens/widgets/BannerSliderWidget.dart';
 import 'package:go_green/screens/widgets/CategoriesWidget.dart';
 import 'package:go_green/screens/widgets/HomePageProductWidget.dart';
@@ -10,11 +11,15 @@ import 'package:go_green/utility/color_utilities.dart';
 import 'package:go_green/utility/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utility/cs.dart';
 import 'drawer_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {
+
   const HomeScreen({super.key});
 
   @override
@@ -22,6 +27,40 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  Map<String, dynamic>? user;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('user_id');
+
+    if (userId != null) {
+      final String url = liveApiDomain + 'api/users/$userId';
+      try {
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          setState(() {
+            user = json.decode(response.body)['user'];
+          });
+        } else {
+          print('Failed to load user');
+        }
+      } catch (error) {
+        print('Error fetching user: $error');
+      }
+    } else {
+      Get.snackbar('Error', 'User not logged in.',
+          snackPosition: SnackPosition.TOP);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -38,26 +77,23 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: softWhite,
         elevation: 0,
         title: Text(
-          username,
+          user != null ? 'Hello, ${user!['fullname']}' : 'Hello, Guest',
           style: color000000w90018,
         ),
         centerTitle: false,
-        // actions: [
-        //   Padding(
-        //     padding: const EdgeInsets.all(10.0),
-        //     child: InkWell(
-        //         onTap: () async {
-        //           final result = await Get.to(NotificationBar());
-        //           if (result != null) {
-        //             print("result====>${result}");
-        //           }
-        //         },
-        //         child: Image(
-        //           image: notification,
-        //           color: charcoalBlack,
-        //         )),
-        //   ),
-        // ],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(
+                onPressed: () {
+                  Get.to(
+                    ShoppingCart(),
+                  );
+                },
+                icon: Icon(Icons.shopping_cart_rounded),
+            ),
+          ),
+        ],
       ),
       drawer: DrawerScreen(),
       body: SingleChildScrollView(

@@ -9,13 +9,55 @@ import 'package:go_green/screens/settings.dart';
 import 'package:go_green/utility/cs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utility/assets_utility.dart';
 import '../utility/color_utilities.dart';
 import '../utility/text_utils.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class DrawerScreen extends StatelessWidget {
-  const DrawerScreen({Key? key}) : super(key: key);
+class DrawerScreen extends StatefulWidget {
+  const DrawerScreen({super.key});
+
+  @override
+  State<DrawerScreen> createState() => _DrawerScreenState();
+}
+
+class _DrawerScreenState extends State<DrawerScreen> {
+
+  Map<String, dynamic>? user;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('user_id');
+
+    if (userId != null) {
+      final String url = liveApiDomain + 'api/users/$userId';
+      try {
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          setState(() {
+            user = json.decode(response.body)['user'];
+          });
+        } else {
+          print('Failed to load user');
+        }
+      } catch (error) {
+        print('Error fetching user: $error');
+      }
+    } else {
+      Get.snackbar('Error', 'User not logged in.',
+          snackPosition: SnackPosition.TOP);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +102,11 @@ class DrawerScreen extends StatelessWidget {
                       height: 80,
                     ),
                     Text(
-                      user,
+                      user != null ? 'Hello, ${user!['fullname']}' : 'Hello, Guest',
                       style: colorFFFFFFw80024,
                     ),
                     Text(
-                      mail,
+                      user!['email'],
                       style: colorFFFFFFw50016,
                     ),
                   ],
@@ -90,8 +132,10 @@ class DrawerScreen extends StatelessWidget {
                   height: 25,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Get.to(ProfilePage());
+                  onTap: () async{
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    int? _userId = prefs.getInt('user_id');
+                    Get.to(ProfilePage(userId: _userId.toString(),));
                   },
                   child: Text(
                     profile,
