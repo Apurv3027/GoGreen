@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DashboardCard extends StatelessWidget {
+class DashboardCard extends StatefulWidget {
   final String title;
   final String value;
   final IconData icon;
@@ -17,9 +17,15 @@ class DashboardCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<DashboardCard> createState() => _DashboardCardState();
+}
+
+class _DashboardCardState extends State<DashboardCard> {
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => widget.onTap,
       child: Card(
         elevation: 3,
         shape: RoundedRectangleBorder(
@@ -32,13 +38,13 @@ class DashboardCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
-                icon,
+                widget.icon,
                 size: 40,
-                color: color,
+                color: widget.color,
               ),
               SizedBox(height: 15),
               Text(
-                value,
+                widget.value,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -46,7 +52,7 @@ class DashboardCard extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                title,
+                widget.title,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,

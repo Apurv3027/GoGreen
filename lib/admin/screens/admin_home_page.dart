@@ -9,29 +9,121 @@ import 'package:go_green/admin/utility/DashboardCard.dart';
 import 'package:go_green/utility/color_utilities.dart';
 import 'package:go_green/utility/cs.dart';
 import 'package:go_green/utility/text_utils.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class AdminHomeScreen extends StatelessWidget {
-  const AdminHomeScreen({Key? key}) : super(key: key);
+class AdminHomeScreen extends StatefulWidget {
+  const AdminHomeScreen({super.key});
+
+  @override
+  State<AdminHomeScreen> createState() => _AdminHomeScreenState();
+}
+
+class _AdminHomeScreenState extends State<AdminHomeScreen> {
+
+  int productCount = 0;
+  int userCount = 0;
+  int categoryCount = 0;
+  int bannerCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchProductCount().then((count) {
+      setState(() {
+        productCount = count;
+      });
+    });
+    fetchUserCount().then((count) {
+      setState(() {
+        userCount = count;
+      });
+    });
+    fetchCategoryCount().then((count) {
+      setState(() {
+        categoryCount = count;
+      });
+    });
+    fetchBannerCount().then((count) {
+      setState(() {
+        bannerCount = count;
+      });
+    });
+  }
+
+  Future<int> fetchProductCount() async {
+    try {
+      final response = await http.get(Uri.parse(liveApiDomain + 'api/products'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print(data);
+        return data['totalProducts'];
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return 0;
+    }
+  }
+
+  Future<int> fetchUserCount() async {
+    try {
+      final response = await http.get(Uri.parse(liveApiDomain + 'api/users'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print(data);
+        return data['totalUsers'];
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return 0;
+    }
+  }
+
+  Future<int> fetchCategoryCount() async {
+    try {
+      final response = await http.get(Uri.parse(liveApiDomain + 'api/categories'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print(data);
+        return data['totalCategories'];
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return 0;
+    }
+  }
+
+  Future<int> fetchBannerCount() async {
+    try {
+      final response = await http.get(Uri.parse(liveApiDomain + 'api/banners'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print(data);
+        return data['totalBanners'];
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return 0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(
-      //     'Admin Dashboard',
-      //     style: TextStyle(color: Colors.white),
-      //   ),
-      //   backgroundColor: Colors.green,
-      //   centerTitle: true,
-      // ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: charcoalBlack),
-
-        // leading: const Icon(
-        //   Icons.menu,
-        //   size: 30,
-        //   color: color000000,
-        // ),
         backgroundColor: cactusGreen,
         elevation: 0,
         title: Text(
@@ -88,7 +180,7 @@ class AdminHomeScreen extends StatelessWidget {
                 children: [
                   DashboardCard(
                     title: 'Products',
-                    value: '320',
+                    value: productCount.toString(),
                     icon: Icons.production_quantity_limits,
                     color: Colors.purple,
                     onTap: () {
@@ -97,7 +189,7 @@ class AdminHomeScreen extends StatelessWidget {
                   ),
                   DashboardCard(
                     title: 'Users',
-                    value: '500',
+                    value: userCount.toString(),
                     icon: Icons.people,
                     color: Colors.green,
                     onTap: () {
@@ -112,7 +204,7 @@ class AdminHomeScreen extends StatelessWidget {
                 children: [
                   DashboardCard(
                     title: 'Categories',
-                    value: '320',
+                    value: categoryCount.toString(),
                     icon: Icons.category,
                     color: Colors.blue,
                     onTap: () {
@@ -121,7 +213,7 @@ class AdminHomeScreen extends StatelessWidget {
                   ),
                   DashboardCard(
                     title: 'Banners',
-                    value: '500',
+                    value: bannerCount.toString(),
                     icon: Icons.image,
                     color: Colors.green,
                     onTap: () {

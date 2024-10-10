@@ -106,7 +106,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       style: colorFFFFFFw80024,
                     ),
                     Text(
-                      user!['email'],
+                      user != null ? '${user!['email']}' : 'guest@gmail.com',
                       style: colorFFFFFFw50016,
                     ),
                   ],
@@ -154,21 +154,21 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     style: color000000w50022,
                   ),
                 ),
-                SizedBox(
-                  height: 25,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: GestureDetector(
-                    onTap: () => Get.to(FavoritesPage()),
-                    child: Text(
-                      favorites,
-                      style: color000000w50022,
-                    ),
-                  ),
-                ),
+                // SizedBox(
+                //   height: 25,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     Get.back();
+                //   },
+                //   child: GestureDetector(
+                //     onTap: () => Get.to(FavoritesPage()),
+                //     child: Text(
+                //       favorites,
+                //       style: color000000w50022,
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   height: 25,
                 ),

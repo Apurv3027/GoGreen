@@ -28,7 +28,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
   }
 
   Future<void> fetchUserDetails(String userId) async {
-    final url = liveApiDomain + 'api/users/$userId';// Replace with your API URL
+    final url = liveApiDomain + 'api/users/$userId';
 
     try {
       final response = await http.get(Uri.parse(url));

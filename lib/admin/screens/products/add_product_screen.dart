@@ -26,6 +26,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   File? _pickedImage;
 
+  List<String> categoryNames = [];
+  String? selectedCategory;
+
   Future<void> _pickImage() async {
     try {
       final picker = ImagePicker();
@@ -48,7 +51,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       String productName = _productNameController.text;
       String productPrice = _productPriceController.text;
       String productDescription = _productDescriptionController.text;
-      String productCategory = _productCategoryController.text;
+      String productCategory = selectedCategory ?? '';
 
       String? imageUrl;
 
@@ -82,7 +85,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
         _productNameController.clear();
         _productPriceController.clear();
         _productDescriptionController.clear();
-        _productCategoryController.clear();
+        // _productCategoryController.clear();
+        selectedCategory = null;
         Get.back();
         setState(() {
           _pickedImage = null;
@@ -117,6 +121,28 @@ class _AddProductScreenState extends State<AddProductScreen> {
       print('Error uploading image: $e');
       return null;
     }
+  }
+
+  Future<void> fetchCategories() async {
+    try {
+      final response = await http.get(Uri.parse(liveApiDomain + 'api/categories'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        categoryNames = List<String>.from(data['categories'].map((category) => category['category_name']));
+        setState(() {});
+      } else {
+        throw Exception('Failed to load categories');
+      }
+    } catch (error) {
+      print('Error fetching categories: $error');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
   }
 
   @override
@@ -193,17 +219,41 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 },
               ),
               SizedBox(height: 16),
-              TextFormField(
-                controller: _productCategoryController,
+              // TextFormField(
+              //   controller: _productCategoryController,
+              //   decoration: InputDecoration(
+              //     labelText: 'Product Category',
+              //     hintText: 'Enter product category',
+              //     border: OutlineInputBorder(),
+              //   ),
+              //   keyboardType: TextInputType.number,
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return 'Please enter a category';
+              //     }
+              //     return null;
+              //   },
+              // ),
+              DropdownButtonFormField<String>(
+                value: selectedCategory,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedCategory = newValue; // Update the selected category
+                  });
+                },
+                items: categoryNames.map<DropdownMenuItem<String>>((String category) {
+                  return DropdownMenuItem<String>(
+                    value: category,
+                    child: Text(category),
+                  );
+                }).toList(),
                 decoration: InputDecoration(
                   labelText: 'Product Category',
-                  hintText: 'Enter product category',
                   border: OutlineInputBorder(),
                 ),
-                keyboardType: TextInputType.number,
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a category';
+                  if (value == null) {
+                    return 'Please select a category';
                   }
                   return null;
                 },
