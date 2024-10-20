@@ -40,6 +40,7 @@ Widget commonTextField({
   String? hintText,
   String? suggestionTxt,
   TextInputAction? action,
+  String? Function(String?)? validator
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,6 +51,7 @@ Widget commonTextField({
         controller: controller,
         cursorColor: earthyBrown,
         keyboardType: keyBoard,
+        validator: validator,
         decoration: InputDecoration(
           hintText: suggestionTxt,
           hintStyle: TextStyle(fontSize: 20),
