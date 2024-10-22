@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:go_green/admin/screens/admin_drawer_screen.dart';
 import 'package:go_green/admin/screens/banners/admin_banner_details_page.dart';
 import 'package:go_green/admin/screens/category/admin_category_details_page.dart';
+import 'package:go_green/admin/screens/orders/order_details.dart';
 import 'package:go_green/admin/screens/products/admin_product_details_page.dart';
 import 'package:go_green/admin/screens/users/admin_user_details_page.dart';
 import 'package:go_green/admin/utility/DashboardCard.dart';
@@ -21,6 +22,7 @@ class AdminHomeScreen extends StatefulWidget {
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
+  int orderCount = 0;
   int productCount = 0;
   int userCount = 0;
   int categoryCount = 0;
@@ -29,6 +31,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   @override
   void initState() {
     super.initState();
+    fetchOrderCount().then((count) {
+      setState(() {
+        orderCount = count;
+      });
+    });
     fetchProductCount().then((count) {
       setState(() {
         productCount = count;
@@ -49,6 +56,22 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         bannerCount = count;
       });
     });
+  }
+
+  Future<int> fetchOrderCount() async {
+    try {
+      final response = await http.get(Uri.parse(liveApiDomain + 'api/orders'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return data['totalOrders'] ?? 0;
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return 0;
+    }
   }
 
   Future<int> fetchProductCount() async {
@@ -119,6 +142,16 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     }
   }
 
+  Future<List<dynamic>> fetchOrders() async {
+    final response = await http.get(Uri.parse(liveApiDomain + 'api/orders'));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body)['data'];
+    } else {
+      throw Exception('Failed to load orders');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,7 +189,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 children: [
                   DashboardCard(
                     title: 'Total Sales',
-                    value: '\$1,000,000',
+                    value: '₹ 1,000,000',
                     icon: Icons.monetization_on,
                     color: Colors.blue,
                     onTap: () {
@@ -165,11 +198,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   ),
                   DashboardCard(
                     title: 'Orders',
-                    value: '150',
+                    value: orderCount.toString(),
                     icon: Icons.shopping_cart,
                     color: Colors.orange,
                     onTap: () {
-                      // Handle tap
+                      Get.to(OrderDetails());
                     },
                   ),
                 ],
@@ -233,22 +266,37 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 ),
               ),
               SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: Icon(Icons.shopping_bag),
-                    title: Text('Order #$index'),
-                    subtitle: Text('Total: \$${(index + 1) * 100}'),
-                    trailing: Text(
-                      'Status: Delivered',
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+              FutureBuilder<List<dynamic>>(
+                future: fetchOrders(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text('No orders found.'));
+                  }
+
+                  final orders = snapshot.data!;
+
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: orders.length,
+                    itemBuilder: (context, index) {
+                      final order = orders[index];
+                      return ListTile(
+                        leading: Icon(Icons.shopping_bag),
+                        title: Text('Order #${order['order_id']}'),
+                        trailing: Text(
+                          'Total: ₹${order['total_amount']}',
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               ),

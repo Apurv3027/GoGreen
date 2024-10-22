@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_green/screens/payment_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utility/assets_utility.dart';
@@ -75,7 +76,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Remove Product'),
-          content: Text('Are you sure you want to remove this product from your cart?'),
+          content: Text(
+              'Are you sure you want to remove this product from your cart?'),
           actions: [
             TextButton(
               child: Text('Cancel'),
@@ -103,7 +105,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
                 if (response.statusCode == 200) {
                   // Product removed successfully
-                  Get.snackbar('Success', 'Product removed from cart', snackPosition: SnackPosition.BOTTOM);
+                  Get.snackbar('Success', 'Product removed from cart',
+                      snackPosition: SnackPosition.BOTTOM);
                   print('Product removed from cart');
 
                   // Fetch updated cart items
@@ -111,7 +114,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   setState(() {});
                 } else {
                   // Handle error
-                  Get.snackbar('Error', 'Failed to remove product: ${response.body}', snackPosition: SnackPosition.BOTTOM);
+                  Get.snackbar(
+                      'Error', 'Failed to remove product: ${response.body}',
+                      snackPosition: SnackPosition.BOTTOM);
                   print('Failed to remove product: ${response.body}');
                 }
               },
@@ -163,7 +168,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () async{
+        onRefresh: () async {
           await fetchCartItems();
         },
         child: Column(
@@ -246,7 +251,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                   int? userId = prefs.getInt('user_id');
                                   int productId = cartItem['product']['id'];
 
-                                  _confirmDeleteFromCart(context, userId!, productId);
+                                  _confirmDeleteFromCart(
+                                      context, userId!, productId);
                                 },
                                 icon: Icon(Icons.delete_outline_rounded),
                                 color: Colors.red,
@@ -341,9 +347,26 @@ class _ShoppingCartState extends State<ShoppingCart> {
               child: Align(
                 alignment: Alignment.center,
                 child: commonMatButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    int? userId = prefs.getInt('user_id');
+
                     if (cartItems.isNotEmpty) {
-                      Get.to(AdressPage());
+                      // Get.to(AdressPage());
+
+                      // Generate OrderID
+                      Random random = Random();
+                      int orderID = 100000 + random.nextInt(900000);
+
+                      Get.to(
+                        PaymentScreen(
+                          userID: userId.toString(),
+                          orderID: orderID.toString(),
+                          totalAmount: totalAmount.toString(),
+                          cartItems: cartItems,
+                        ),
+                      );
                     } else {
                       Get.snackbar('Error', 'Your cart is empty.',
                           snackPosition: SnackPosition.TOP);

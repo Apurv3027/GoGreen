@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:go_green/screens/add_adress.dart';
+import 'package:go_green/screens/payment_screen.dart';
 import 'package:go_green/utility/color_utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -222,7 +223,7 @@ class _AdressPageState extends State<AdressPage> {
                                         width: 20,
                                         child: Theme(
                                           child: Checkbox(
-                                            activeColor: colorFFCA27,
+                                            activeColor: cactusGreen,
                                             focusColor: Colors.black,
                                             visualDensity: VisualDensity(
                                               horizontal: -4,

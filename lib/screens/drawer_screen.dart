@@ -146,8 +146,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   height: 25,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Get.to(MyOrders());
+                  onTap: () async {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    int? _userId = prefs.getInt('user_id');
+                    Get.to(MyOrders(userId: _userId.toString(),));
                   },
                   child: Text(
                     myOrders,

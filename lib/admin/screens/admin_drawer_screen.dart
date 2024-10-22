@@ -2,6 +2,7 @@
 
 import 'package:go_green/admin/screens/banners/admin_banner_details_page.dart';
 import 'package:go_green/admin/screens/category/admin_category_details_page.dart';
+import 'package:go_green/admin/screens/orders/order_details.dart';
 import 'package:go_green/admin/screens/products/admin_product_details_page.dart';
 import 'package:go_green/admin/screens/users/admin_user_details_page.dart';
 import 'package:go_green/screens/logIn_page.dart';
@@ -104,7 +105,7 @@ class AdminDrawerScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // Get.to(Settings());
+                    Get.to(OrderDetails());
                   },
                   child: Text(
                     adminOrderDetails,
