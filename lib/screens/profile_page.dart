@@ -59,6 +59,10 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> _refreshData() async {
+    await fetchUserDetails(widget.userId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: colorFFFFFF,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () async{
+          onTap: () async {
             Get.offAll(HomeScreen());
           },
           child: Image(image: backArrow),
@@ -92,42 +96,39 @@ class _ProfilePageState extends State<ProfilePage> {
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : user != null
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Text(
+              ? RefreshIndicator(
+                  onRefresh: _refreshData,
+                  child: ListView(
+                    padding: EdgeInsets.all(10.0),
+                    children: [
+                      Text(
                         profile,
                         style: color000000w90038,
                       ),
-                    ),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: commonTextDisplay(
-                        title: nameSuggestion,
-                        value: user!['fullname'],
+                      Divider(height: 1, thickness: 1),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: commonTextDisplay(
+                          title: nameSuggestion,
+                          value: user!['fullname'],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: commonTextDisplay(
-                        title: emailSuggestion,
-                        value: user!['email'],
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: commonTextDisplay(
+                          title: emailSuggestion,
+                          value: user!['email'],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: commonTextDisplay(
-                        title: phoneSuggestion,
-                        value: user!['mobile_number'],
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: commonTextDisplay(
+                          title: phoneSuggestion,
+                          value: user!['mobile_number'],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 )
               : Center(child: Text('User not found')),
     );

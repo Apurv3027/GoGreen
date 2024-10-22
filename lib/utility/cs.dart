@@ -115,6 +115,7 @@ String enterCity = 'Enter City';
 String state = 'State';
 String enterState = 'Enter State';
 String addNewAddress1 = 'ADD NEW ADDRESS';
+String confirmOrder = 'Confirm Order';
 String id = 'ID: 01234';
 String date = '28/10/2021';
 String completed = 'Completed';
