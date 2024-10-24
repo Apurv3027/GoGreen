@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:go_green/screens/home_page.dart';
+import 'package:go_green/screens/receipt_screen.dart';
 import 'package:go_green/utility/color_utilities.dart';
 import 'package:go_green/utility/commonMaterialButton.dart';
 import 'package:go_green/utility/cs.dart';
@@ -108,10 +109,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
     // Check the response status
     if (res.statusCode == 201) {
       final responseData = jsonDecode(res.body);
-      Fluttertoast.showToast(msg: "Order created successfully: ${responseData['data']['order_id']}");
-      Get.offAll(HomeScreen());
+      Fluttertoast.showToast(
+          msg:
+              "Order created successfully: ${responseData['data']['order_id']}");
+      // Get.offAll(HomeScreen());
+      Get.offAll(
+        ReceiptScreen(
+          orderID: responseData['data']['order_id'],
+          totalAmount: double.parse(widget.totalAmount),
+          cartItems: cartData,
+        ),
+      );
     } else {
-      Fluttertoast.showToast(msg: "Failed to create order: ${res.reasonPhrase}");
+      Fluttertoast.showToast(
+          msg: "Failed to create order: ${res.reasonPhrase}");
     }
   }
 
