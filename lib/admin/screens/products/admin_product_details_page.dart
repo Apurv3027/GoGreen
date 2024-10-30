@@ -278,6 +278,7 @@ class _AdminProductDetailsPageState extends State<AdminProductDetailsPage> {
                   Navigator.of(context).pop();
                   Get.snackbar('Error', 'Failed to delete product');
                 }
+                print(response.body);
               },
             ),
           ],

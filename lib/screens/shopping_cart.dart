@@ -352,15 +352,23 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         await SharedPreferences.getInstance();
                     int? userId = prefs.getInt('user_id');
 
-                    if (cartItems.isNotEmpty) {
-                      // Get.to(AdressPage());
+                    // Fetch user addresses from the API
+                    final url = liveApiDomain + 'api/user/$userId/addresses';
+                    final response = await http.get(Uri.parse(url));
+                    List<dynamic> addresses = [];
 
+                    if (response.statusCode == 200) {
+                      final data = json.decode(response.body);
+                      addresses = data['data']['addresses'];
+                    }
+
+                    if (cartItems.isNotEmpty) {
                       // Generate OrderID
                       Random random = Random();
                       int orderID = 100000 + random.nextInt(900000);
 
                       Get.to(
-                        PaymentScreen(
+                        AdressPage(
                           userID: userId.toString(),
                           orderID: orderID.toString(),
                           totalAmount: totalAmount.toString(),

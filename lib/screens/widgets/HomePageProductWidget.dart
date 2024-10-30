@@ -123,8 +123,8 @@ class _HomePageProductWidgetState extends State<HomePageProductWidget> {
                           ),
                           SizedBox(height: 5),
                           Text(
-                            productsList[index]['price'],
-                            style: color999999w40016.copyWith(
+                          '₹${productsList[index]['price']}',
+                            style: colorFF2D55w70026.copyWith(
                               fontSize: 18,
                             ),
                           ),

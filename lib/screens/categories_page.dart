@@ -108,7 +108,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        Get.to(CategoriesProductPage());
+                        Get.to(ProductsByCategoryScreen(categoryId: categoriesList[index]['id'], categoryName: categoriesList[index]['name']));
                       },
                       child: Row(
                         children: [

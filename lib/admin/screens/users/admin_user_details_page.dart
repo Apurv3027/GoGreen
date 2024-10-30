@@ -14,7 +14,6 @@ class AdminUserDetailsPage extends StatefulWidget {
 }
 
 class _AdminUserDetailsPageState extends State<AdminUserDetailsPage> {
-
   late Future<List<Map<String, dynamic>>> _usersFuture;
 
   String defaultURL = "assets/img/Welcome_WhiteLogo.png";
@@ -24,11 +23,11 @@ class _AdminUserDetailsPageState extends State<AdminUserDetailsPage> {
     super.initState();
     // _categoriesFuture = fetchCategories();
     setState(() {
-      _usersFuture = fetchProducts();
+      _usersFuture = fetchUsers();
     });
   }
 
-  Future<List<Map<String, dynamic>>> fetchProducts() async {
+  Future<List<Map<String, dynamic>>> fetchUsers() async {
     try {
       final response = await http.get(
         Uri.parse(liveApiDomain + 'api/users'),
@@ -79,7 +78,7 @@ class _AdminUserDetailsPageState extends State<AdminUserDetailsPage> {
         onRefresh: () async {
           // Refresh the banners data
           setState(() {
-            _usersFuture = fetchProducts();
+            _usersFuture = fetchUsers();
           });
         },
         child: FutureBuilder<List<Map<String, dynamic>>>(
@@ -102,6 +101,9 @@ class _AdminUserDetailsPageState extends State<AdminUserDetailsPage> {
                 child: ListView.builder(
                   itemCount: usersList.length,
                   itemBuilder: (context, index) {
+                    final user = usersList[index];
+                    final addresses = user['addresses'] ?? [];
+
                     return Card(
                       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       child: ListTile(
@@ -110,28 +112,46 @@ class _AdminUserDetailsPageState extends State<AdminUserDetailsPage> {
                           color: Colors.blue,
                         ),
                         title: Text(
-                          usersList[index]['fullname'] ?? '',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          user['fullname'] ?? '',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Email: ${usersList[index]['email'] ?? ''}'),
-                            Text('Phone: ${usersList[index]['mobile_number'] ?? ''}'),
+                            Text('Email: ${user['email'] ?? ''}'),
+                            Text('Phone: ${user['mobile_number'] ?? ''}'),
+                            if (addresses.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: addresses.map<Widget>((address) {
+                                    return Text(
+                                      'Address: ${address['street_1']}, ${address['street_2'] ?? ''}, ${address['city']}, ${address['state']}',
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                           ],
                         ),
                         trailing: PopupMenuButton<String>(
                           onSelected: (value) {
                             if (value == 'View Details') {
-                              Get.to(UserDetailScreen(userId: usersList[index]['id']));
+                              Get.to(UserDetailScreen(
+                                  userId: usersList[index]['id']));
                             } else if (value == 'Delete') {
                               // Implement delete functionality here
-                              print('Delete user: ${usersList[index]['fullname']}');
-                              Get.snackbar('Success', 'Delete user: ${usersList[index]['fullname']}', snackPosition: SnackPosition.BOTTOM);
+                              print(
+                                  'Delete user: ${usersList[index]['fullname']}');
+                              Get.snackbar('Success',
+                                  'Delete user: ${usersList[index]['fullname']}',
+                                  snackPosition: SnackPosition.BOTTOM);
                             }
                           },
                           itemBuilder: (BuildContext context) {
-                            return {'View Details', 'Delete'}.map((String choice) {
+                            return {'View Details', 'Delete'}
+                                .map((String choice) {
                               return PopupMenuItem<String>(
                                 value: choice,
                                 child: Text(choice),

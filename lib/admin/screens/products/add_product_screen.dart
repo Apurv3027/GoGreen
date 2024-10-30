@@ -95,6 +95,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to add product')),
         );
+        print('Failed to add product: ${response.body}');
       }
     }
   }
@@ -237,9 +238,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
               DropdownButtonFormField<String>(
                 value: selectedCategory,
                 onChanged: (String? newValue) {
+                  print('newValue: ${newValue}');
                   setState(() {
                     selectedCategory = newValue; // Update the selected category
                   });
+                  print('selectedCategory: ${selectedCategory}');
                 },
                 items: categoryNames.map<DropdownMenuItem<String>>((String category) {
                   return DropdownMenuItem<String>(

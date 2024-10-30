@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:go_green/utility/color_utilities.dart';
 import 'package:go_green/utility/commonMaterialButton.dart';
 import 'package:pdf/pdf.dart';
@@ -7,6 +8,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:typed_data';
+
+import 'home_page.dart';
 
 class ReceiptScreen extends StatefulWidget {
   final String orderID;
@@ -31,6 +34,12 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
       appBar: AppBar(
         title: Text(
           'Order Receipt',
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.offAll(HomeScreen());
+          },
         ),
       ),
       body: Padding(
