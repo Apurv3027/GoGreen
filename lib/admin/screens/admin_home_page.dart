@@ -21,7 +21,7 @@ class AdminHomeScreen extends StatefulWidget {
 }
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
-
+  double totalSalesCount = 0;
   int orderCount = 0;
   int productCount = 0;
   int userCount = 0;
@@ -31,6 +31,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   @override
   void initState() {
     super.initState();
+    fetchTotalSales().then((count) {
+      setState(() {
+        totalSalesCount = count;
+      });
+    });
     fetchOrderCount().then((count) {
       setState(() {
         orderCount = count;
@@ -58,6 +63,23 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     });
   }
 
+  Future<double> fetchTotalSales() async {
+    try {
+      final response =
+          await http.get(Uri.parse(liveApiDomain + 'api/orders/totalsales'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return double.parse(data['total_sales']);
+      } else {
+        throw Exception('Failed to load total sales');
+      }
+    } catch (e) {
+      print('Error: $e');
+      return 0;
+    }
+  }
+
   Future<int> fetchOrderCount() async {
     try {
       final response = await http.get(Uri.parse(liveApiDomain + 'api/orders'));
@@ -76,7 +98,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   Future<int> fetchProductCount() async {
     try {
-      final response = await http.get(Uri.parse(liveApiDomain + 'api/products'));
+      final response =
+          await http.get(Uri.parse(liveApiDomain + 'api/products'));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -110,7 +133,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   Future<int> fetchCategoryCount() async {
     try {
-      final response = await http.get(Uri.parse(liveApiDomain + 'api/categories'));
+      final response =
+          await http.get(Uri.parse(liveApiDomain + 'api/categories'));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -189,8 +213,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 children: [
                   DashboardCard(
                     title: 'Total Sales',
-                    value: '₹ 1,000,000',
-                    icon: Icons.monetization_on,
+                    value: '₹ ${totalSalesCount.toStringAsFixed(2)}',
+                    icon: Icons.currency_rupee,
                     color: Colors.blue,
                     onTap: () {
                       // Handle tap
@@ -287,10 +311,20 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       final order = orders[index];
                       return ListTile(
                         leading: Icon(Icons.shopping_bag),
-                        title: Text('Order #${order['order_id']}'),
+                        title: Text(
+                          'Order #${order['order_id']}',
+                        ),
+                        subtitle: Text(
+                          'Payment Status: PAID',
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         trailing: Text(
                           'Total: ₹${order['total_amount']}',
                           style: TextStyle(
+                            fontSize: 15,
                             color: Colors.green,
                             fontWeight: FontWeight.bold,
                           ),

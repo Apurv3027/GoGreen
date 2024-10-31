@@ -32,6 +32,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
 
     try {
       final response = await http.get(Uri.parse(url));
+      print(response.body);
 
       if (response.statusCode == 200) {
         setState(() {
@@ -68,7 +69,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Name: ${user!['fullname']}',
+              'Full Name: ${user!['fullname']}',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
@@ -82,25 +83,79 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 20),
-            adminCommonMatButton(
-              onPressed: () {
-                print('Edit user: ${user!['fullname']}');
-                Get.snackbar('Success', 'Edit user: ${user!['fullname']}', snackPosition: SnackPosition.BOTTOM);
-              },
-              txt: 'Edit User',
-              buttonColor: Colors.blue,
+
+            // Displaying addresses
+            Text(
+              'Addresses:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            adminCommonMatButton(
-              onPressed: () {
-                print('Delete user: ${user!['fullname']}');
-                Get.snackbar('Success', 'Delete user: ${user!['fullname']}', snackPosition: SnackPosition.BOTTOM);
-              },
-              txt: 'Delete User',
-              buttonColor: Colors.red,
-            ),
+            if (user != null && user!['addresses'] != null && user!['addresses'].isNotEmpty)
+              ...user!['addresses'].asMap().entries.map<Widget>((entry) {
+                int index = entry.key; // Get the index
+                var address = entry.value; // Get the address
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          text: 'Address ${index + 1}: ',
+                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                          children: [
+                            TextSpan(
+                              text: '${address['street_1']}${address['street_2']?.isNotEmpty == true ? ', ${address['street_2']}' : ''}\n${address['city']}, ${address['state']}',
+                              style: TextStyle(fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Divider(), // Divider for separating addresses
+                    ],
+                  ),
+                );
+              }).toList(),
           ],
         ),
+        // child: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     Text(
+        //       'Name: ${user!['fullname']}',
+        //       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        //     ),
+        //     SizedBox(height: 10),
+        //     Text(
+        //       'Email: ${user!['email']}',
+        //       style: TextStyle(fontSize: 18),
+        //     ),
+        //     SizedBox(height: 10),
+        //     Text(
+        //       'Phone: ${user!['mobile_number']}',
+        //       style: TextStyle(fontSize: 18),
+        //     ),
+        //     SizedBox(height: 20),
+        //     // adminCommonMatButton(
+        //     //   onPressed: () {
+        //     //     print('Edit user: ${user!['fullname']}');
+        //     //     Get.snackbar('Success', 'Edit user: ${user!['fullname']}', snackPosition: SnackPosition.BOTTOM);
+        //     //   },
+        //     //   txt: 'Edit User',
+        //     //   buttonColor: Colors.blue,
+        //     // ),
+        //     // SizedBox(height: 10),
+        //     // adminCommonMatButton(
+        //     //   onPressed: () {
+        //     //     print('Delete user: ${user!['fullname']}');
+        //     //     Get.snackbar('Success', 'Delete user: ${user!['fullname']}', snackPosition: SnackPosition.BOTTOM);
+        //     //   },
+        //     //   txt: 'Delete User',
+        //     //   buttonColor: Colors.red,
+        //     // ),
+        //   ],
+        // ),
       )
           : Center(child: Text('User not found')),
     );

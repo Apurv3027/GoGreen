@@ -63,7 +63,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 230,
       child: categoriesList.isEmpty
           // ? Center(
           //     child: CircularProgressIndicator(),
@@ -101,13 +101,17 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                           clipBehavior: Clip.hardEdge,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
-                                8), // Optional: rounded corners
+                              8,
+                            ), // Optional: rounded corners
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.2),
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: Offset(0, 3),
+                                offset: Offset(
+                                  0,
+                                  3,
+                                ),
                               ),
                             ],
                           ),

@@ -54,14 +54,11 @@ class _OrderDetailsState extends State<OrderDetails> {
       body: FutureBuilder<List<dynamic>>(
         future: fetchOrders(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState ==
-              ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(
-                child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData ||
-              snapshot.data == null) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data == null) {
             return Center(child: Text('No orders found.'));
           }
 
@@ -71,6 +68,8 @@ class _OrderDetailsState extends State<OrderDetails> {
             itemCount: orders.length,
             itemBuilder: (context, index) {
               final order = orders[index];
+              final user = order['user'];
+              final address = order['address'];
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Padding(
@@ -78,51 +77,46 @@ class _OrderDetailsState extends State<OrderDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FutureBuilder<Map<String, dynamic>?>(
-                        future: fetchUserDetails(order['user_id']),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (snapshot.hasError) {
-                            return Center(
-                                child: Text('Error: ${snapshot.error}'));
-                          } else if (!snapshot.hasData ||
-                              snapshot.data == null) {
-                            return Center(child: Text('User not found.'));
-                          }
-
-                          final user = snapshot.data!;
-
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Full Name: ${user['fullname']}',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 8),
-                              Text(
-                                'Email: ${user['email']}',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 8),
-                              Text(
-                                'Mobile Number: ${user['mobile_number']}',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 8),
-                            ],
-                          );
-                        },
-                      ),
                       Text(
                         'Order ID: ${order['order_id']}',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Order Date: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(order['created_at']))}',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Full Name: ${user['fullname']}',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Email: ${user['email']}',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Mobile Number: ${user['mobile_number']}',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Delivery Address: ${address['street_1']}, ${address['street_2']}, ${address['city']}, ${address['state']}',
+                        style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(height: 8),
                       Text(
@@ -134,8 +128,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        'Date: ${DateFormat('dd-MM-yyyy').format(DateTime.parse(order['created_at']))}',
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                        'Shipping Fee: ₹100.00',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.green,
+                        ),
                       ),
                       SizedBox(height: 8),
                       // Display order items
@@ -213,12 +210,12 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   );
                                 } else {
                                   final product = productSnapshot.data;
-                                  final productName = product?[
-                                          'product_name'] ??
-                                      'Product not found';
-                                  final productPrice = product?['product_price']
-                                          ?.toString() ??
-                                      'N/A';
+                                  final productName =
+                                      product?['product_name'] ??
+                                          'Product not found';
+                                  final productPrice =
+                                      product?['product_price']?.toString() ??
+                                          'N/A';
 
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -249,7 +246,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         SizedBox(width: 10),
                                         // Display product price
                                         Text(
-                                          '₹${productPrice}',
+                                          '₹${productPrice}.00',
                                           style: TextStyle(
                                             fontSize: 15,
                                             color: Colors.green[600],

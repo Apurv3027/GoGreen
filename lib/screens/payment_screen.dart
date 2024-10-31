@@ -12,6 +12,7 @@ import 'dart:convert';
 
 class PaymentScreen extends StatefulWidget {
   final String userID;
+  final String addressID;
   final String orderID;
   final String totalAmount;
   final List<dynamic> cartItems;
@@ -19,6 +20,7 @@ class PaymentScreen extends StatefulWidget {
   const PaymentScreen({
     Key? key,
     required this.userID,
+    required this.addressID,
     required this.orderID,
     required this.totalAmount,
     required this.cartItems,
@@ -101,6 +103,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       },
       body: jsonEncode({
         'user_id': widget.userID,
+        'address_id': widget.addressID,
         'order_id': widget.orderID,
         'total_amount': widget.totalAmount,
       }),

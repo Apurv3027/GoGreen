@@ -309,9 +309,11 @@ class _AdressPageState extends State<AdressPage> {
                           child: commonMatButton(
                             width: double.infinity,
                             onPressed: () {
+                              final selectedAddressId = addresses[selectedAddressIndex!]['id'];
                               Get.to(
                                 PaymentScreen(
                                   userID: widget.userID.toString(),
+                                  addressID: selectedAddressId.toString(),
                                   orderID: widget.orderID.toString(),
                                   totalAmount: widget.totalAmount.toString(),
                                   cartItems: widget.cartItems,

@@ -47,12 +47,13 @@ class _AdminUserDetailsPageState extends State<AdminUserDetailsPage> {
             responseData.containsKey('users')) {
           List<dynamic> productsData = responseData['users'];
 
-          return productsData.map((category) {
+          return productsData.map((user) {
             return {
-              'id': category['id'].toString() ?? '0',
-              'fullname': category['fullname'] ?? 'No Data',
-              'email': category['email'] ?? 'No Data',
-              'mobile_number': category['mobile_number'] ?? '-',
+              'id': user['id'].toString() ?? '0',
+              'fullname': user['fullname'] ?? 'No Data',
+              'email': user['email'] ?? 'No Data',
+              'mobile_number': user['mobile_number'] ?? '-',
+              'addresses': user['addresses'] ?? [],
             };
           }).toList();
         } else {
@@ -107,6 +108,13 @@ class _AdminUserDetailsPageState extends State<AdminUserDetailsPage> {
                     return Card(
                       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       child: ListTile(
+                        onTap: () {
+                          Get.to(
+                            UserDetailScreen(
+                              userId: usersList[index]['id'],
+                            ),
+                          );
+                        },
                         leading: Icon(
                           Icons.person,
                           color: Colors.blue,
@@ -114,51 +122,43 @@ class _AdminUserDetailsPageState extends State<AdminUserDetailsPage> {
                         title: Text(
                           user['fullname'] ?? '',
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Email: ${user['email'] ?? ''}'),
+                            Text(
+                              'Email: ${user['email'] ?? ''}',
+                            ),
                             Text('Phone: ${user['mobile_number'] ?? ''}'),
-                            if (addresses.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: addresses.map<Widget>((address) {
-                                    return Text(
-                                      'Address: ${address['street_1']}, ${address['street_2'] ?? ''}, ${address['city']}, ${address['state']}',
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
                           ],
                         ),
-                        trailing: PopupMenuButton<String>(
-                          onSelected: (value) {
-                            if (value == 'View Details') {
-                              Get.to(UserDetailScreen(
-                                  userId: usersList[index]['id']));
-                            } else if (value == 'Delete') {
-                              // Implement delete functionality here
-                              print(
-                                  'Delete user: ${usersList[index]['fullname']}');
-                              Get.snackbar('Success',
-                                  'Delete user: ${usersList[index]['fullname']}',
-                                  snackPosition: SnackPosition.BOTTOM);
-                            }
-                          },
-                          itemBuilder: (BuildContext context) {
-                            return {'View Details', 'Delete'}
-                                .map((String choice) {
-                              return PopupMenuItem<String>(
-                                value: choice,
-                                child: Text(choice),
-                              );
-                            }).toList();
-                          },
-                        ),
+                        // trailing: PopupMenuButton<String>(
+                        //   onSelected: (value) {
+                        //     if (value == 'View Details') {
+                        //       Get.to(UserDetailScreen(
+                        //           userId: usersList[index]['id']));
+                        //     } else if (value == 'Delete') {
+                        //       // Implement delete functionality here
+                        //       print(
+                        //           'Delete user: ${usersList[index]['fullname']}');
+                        //       Get.snackbar('Success',
+                        //           'Delete user: ${usersList[index]['fullname']}',
+                        //           snackPosition: SnackPosition.BOTTOM);
+                        //     }
+                        //   },
+                        //   itemBuilder: (BuildContext context) {
+                        //     return {'View Details', 'Delete'}
+                        //         .map((String choice) {
+                        //       return PopupMenuItem<String>(
+                        //         value: choice,
+                        //         child: Text(choice),
+                        //       );
+                        //     }).toList();
+                        //   },
+                        // ),
                       ),
                     );
                   },

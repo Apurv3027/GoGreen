@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DashboardCard extends StatefulWidget {
+class DashboardCard extends StatelessWidget {
   final String title;
   final String value;
   final IconData icon;
@@ -8,24 +8,17 @@ class DashboardCard extends StatefulWidget {
   final VoidCallback onTap;
 
   const DashboardCard({
-    Key? key,
     required this.title,
     required this.value,
     required this.icon,
     required this.color,
     required this.onTap,
-  }) : super(key: key);
-
-  @override
-  State<DashboardCard> createState() => _DashboardCardState();
-}
-
-class _DashboardCardState extends State<DashboardCard> {
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => widget.onTap,
+      onTap: onTap,
       child: Card(
         elevation: 3,
         shape: RoundedRectangleBorder(
@@ -38,13 +31,13 @@ class _DashboardCardState extends State<DashboardCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
-                widget.icon,
+                icon,
                 size: 40,
-                color: widget.color,
+                color: color,
               ),
               SizedBox(height: 15),
               Text(
-                widget.value,
+                value,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -52,7 +45,7 @@ class _DashboardCardState extends State<DashboardCard> {
               ),
               SizedBox(height: 5),
               Text(
-                widget.title,
+                title,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,

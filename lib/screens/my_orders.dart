@@ -92,22 +92,56 @@ class _MyOrdersState extends State<MyOrders> {
                         Text(
                           'Order ID: ${order['order_id']}',
                           style: TextStyle(
-                              fontSize: 21, fontWeight: FontWeight.w500),
+                            fontSize: 21,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         SizedBox(height: 5),
                         Text(
                           'Total Amount: ₹${order['total_amount']}',
-                          style:
-                              TextStyle(fontSize: 17, color: Colors.grey[600]),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.green,
+                          ),
                         ),
                         SizedBox(height: 5),
                         Text(
                           'Date: ${DateFormat('dd-MM-yyyy').format(DateTime.parse(order['created_at']))}',
                           style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey[600]),
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Delivery Address:',
+                          style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         SizedBox(height: 5),
+                        Text(
+                          '${order['address']['street_1']}${order['address']['street_2']?.isNotEmpty == true ? ', ${order['address']['street_2']}' : ''}',
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        Text(
+                          '${order['address']['city']}, ${order['address']['state']}',
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Items:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         // Display each order item's name and quantity
                         Column(
                           children: List.generate(order['order_items'].length,
@@ -122,47 +156,62 @@ class _MyOrdersState extends State<MyOrders> {
                                     ConnectionState.waiting) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0),
+                                      vertical: 4.0,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         // Placeholder for product name
                                         Expanded(
-                                            child: Text('Loading...',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey[600]))),
+                                          child: Text(
+                                            'Loading...',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.grey[600],
+                                            ),
+                                          ),
+                                        ),
                                         SizedBox(width: 10),
                                         // Placeholder for quantity
-                                        Text('Qty: ${item['quantity']}',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.grey[600])),
+                                        Text(
+                                          'Qty: ${item['quantity']}',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.grey[600],
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   );
                                 } else if (productSnapshot.hasError) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0),
+                                      vertical: 4.0,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         // Error message
                                         Expanded(
-                                            child: Text(
-                                                'Error fetching product details',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.red))),
+                                          child: Text(
+                                            'Error fetching product details',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ),
                                         SizedBox(width: 10),
                                         // Display quantity
-                                        Text('Qty: ${item['quantity']}',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.grey[600])),
+                                        Text(
+                                          'Qty: ${item['quantity']}',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.grey[600],
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   );
@@ -177,29 +226,40 @@ class _MyOrdersState extends State<MyOrders> {
 
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0),
+                                      vertical: 4.0,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         // Display product name
                                         Expanded(
-                                            child: Text(productName,
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.black))),
+                                          child: Text(
+                                            productName,
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
                                         SizedBox(width: 10),
                                         // Display quantity
-                                        Text('Qty: ${item['quantity']}',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.grey[600])),
+                                        Text(
+                                          'Qty: ${item['quantity']}',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.grey[600],
+                                          ),
+                                        ),
                                         SizedBox(width: 10),
                                         // Display product price
-                                        Text('₹${productPrice}',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.green[600])),
+                                        Text(
+                                          '₹${productPrice}',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.green[600],
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   );
