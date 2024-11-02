@@ -191,151 +191,166 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         centerTitle: false,
       ),
       drawer: AdminDrawerScreen(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Greeting or Dashboard Title
-              Text(
-                'Welcome, Admin!',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {
+            fetchTotalSales();
+            fetchOrderCount();
+            fetchProductCount();
+            fetchUserCount();
+            fetchCategoryCount();
+            fetchBannerCount();
+          });
+
+          // Adding a delay to simulate network request
+          await Future.delayed(Duration(seconds: 1));
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Greeting or Dashboard Title
+                Text(
+                  'Welcome, Admin!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
+                SizedBox(height: 20),
 
-              // Overview Cards
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DashboardCard(
-                    title: 'Total Sales',
-                    value: '₹ ${totalSalesCount.toStringAsFixed(2)}',
-                    icon: Icons.currency_rupee,
-                    color: Colors.blue,
-                    onTap: () {
-                      // Handle tap
-                    },
-                  ),
-                  DashboardCard(
-                    title: 'Orders',
-                    value: orderCount.toString(),
-                    icon: Icons.shopping_cart,
-                    color: Colors.orange,
-                    onTap: () {
-                      Get.to(OrderDetails());
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DashboardCard(
-                    title: 'Products',
-                    value: productCount.toString(),
-                    icon: Icons.production_quantity_limits,
-                    color: Colors.purple,
-                    onTap: () {
-                      Get.to(AdminProductDetailsPage());
-                    },
-                  ),
-                  DashboardCard(
-                    title: 'Users',
-                    value: userCount.toString(),
-                    icon: Icons.people,
-                    color: Colors.green,
-                    onTap: () {
-                      Get.to(AdminUserDetailsPage());
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DashboardCard(
-                    title: 'Categories',
-                    value: categoryCount.toString(),
-                    icon: Icons.category,
-                    color: Colors.blue,
-                    onTap: () {
-                      Get.to(AdminCategoryDetailsPage());
-                    },
-                  ),
-                  DashboardCard(
-                    title: 'Banners',
-                    value: bannerCount.toString(),
-                    icon: Icons.image,
-                    color: Colors.green,
-                    onTap: () {
-                      Get.to(AdminBannersDetailsPage());
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: 30),
-
-              // Recent Orders Section
-              Text(
-                'Recent Orders',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
+                // Overview Cards
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DashboardCard(
+                      title: 'Total Sales',
+                      value: '₹ ${totalSalesCount.toStringAsFixed(2)}',
+                      icon: Icons.currency_rupee,
+                      color: Colors.blue,
+                      onTap: () {
+                        // Handle tap
+                      },
+                    ),
+                    DashboardCard(
+                      title: 'Orders',
+                      value: orderCount.toString(),
+                      icon: Icons.shopping_cart,
+                      color: Colors.orange,
+                      onTap: () {
+                        Get.to(OrderDetails());
+                      },
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(height: 10),
-              FutureBuilder<List<dynamic>>(
-                future: fetchOrders(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No orders found.'));
-                  }
+                SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DashboardCard(
+                      title: 'Products',
+                      value: productCount.toString(),
+                      icon: Icons.production_quantity_limits,
+                      color: Colors.purple,
+                      onTap: () {
+                        Get.to(AdminProductDetailsPage());
+                      },
+                    ),
+                    DashboardCard(
+                      title: 'Users',
+                      value: userCount.toString(),
+                      icon: Icons.people,
+                      color: Colors.green,
+                      onTap: () {
+                        Get.to(AdminUserDetailsPage());
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DashboardCard(
+                      title: 'Categories',
+                      value: categoryCount.toString(),
+                      icon: Icons.category,
+                      color: Colors.blue,
+                      onTap: () {
+                        Get.to(AdminCategoryDetailsPage());
+                      },
+                    ),
+                    DashboardCard(
+                      title: 'Banners',
+                      value: bannerCount.toString(),
+                      icon: Icons.image,
+                      color: Colors.green,
+                      onTap: () {
+                        Get.to(AdminBannersDetailsPage());
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30),
 
-                  final orders = snapshot.data!;
+                // Recent Orders Section
+                Text(
+                  'Recent Orders',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
+                FutureBuilder<List<dynamic>>(
+                  future: fetchOrders(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Center(child: Text('No orders found.'));
+                    }
 
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: orders.length,
-                    itemBuilder: (context, index) {
-                      final order = orders[index];
-                      return ListTile(
-                        leading: Icon(Icons.shopping_bag),
-                        title: Text(
-                          'Order #${order['order_id']}',
-                        ),
-                        subtitle: Text(
-                          'Payment Status: PAID',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
+                    final orders = snapshot.data!;
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: orders.length,
+                      itemBuilder: (context, index) {
+                        final order = orders[index];
+                        return ListTile(
+                          leading: Icon(Icons.shopping_bag),
+                          title: Text(
+                            'Order #${order['order_id']}',
                           ),
-                        ),
-                        trailing: Text(
-                          'Total: ₹${order['total_amount']}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
+                          subtitle: Text(
+                            'Payment Status: PAID',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-              SizedBox(height: 20),
-            ],
+                          trailing: Text(
+                            'Total: ₹${order['total_amount']}',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),

@@ -18,6 +18,8 @@ class HomePageProductWidget extends StatefulWidget {
 class _HomePageProductWidgetState extends State<HomePageProductWidget> {
   List<Map<String, dynamic>> productsList = [];
 
+  bool isFavorite = false;
+
   @override
   void initState() {
     super.initState();
@@ -45,12 +47,12 @@ class _HomePageProductWidgetState extends State<HomePageProductWidget> {
           var categoriesData = responseData['products'];
           setState(() {
             productsList =
-                List<Map<String, dynamic>>.from(categoriesData.map((category) {
+                List<Map<String, dynamic>>.from(categoriesData.map((product) {
               return {
-                'id': category['id'],
-                'name': category['product_name'],
-                'price': category['product_price'],
-                'img': category['product_image_url'],
+                'id': product['id'],
+                'name': product['product_name'],
+                'price': product['product_price'],
+                'img': product['product_image_url'],
               };
             }));
           });
@@ -84,7 +86,9 @@ class _HomePageProductWidgetState extends State<HomePageProductWidget> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(ProductPage(productId: productsList[index]['id'],));
+                      Get.to(ProductPage(
+                        productId: productsList[index]['id'],
+                      ));
                     },
                     child: Container(
                       width: 200,
@@ -100,18 +104,15 @@ class _HomePageProductWidgetState extends State<HomePageProductWidget> {
                                 fit: BoxFit.cover,
                               ),
                               Positioned(
-                                  top: 10,
-                                  right: 12,
-                                  child: FavoriteButton(
-                                    iconColor: cactusGreen,
-                                    iconSize: 35,
-                                    isFavorite: true,
-                                    valueChanged: (_isFavorite) {
-                                      print(
-                                        'Is Favorite $_isFavorite)',
-                                      );
-                                    },
-                                  )),
+                                top: 10,
+                                right: 12,
+                                child: FavoriteButton(
+                                  iconColor: cactusGreen,
+                                  iconSize: 35,
+                                  isFavorite: isFavorite,
+                                  valueChanged: (_isFavorite) async {},
+                                ),
+                              ),
                             ],
                           ),
                           SizedBox(height: 10),
@@ -123,7 +124,7 @@ class _HomePageProductWidgetState extends State<HomePageProductWidget> {
                           ),
                           SizedBox(height: 5),
                           Text(
-                          '₹${productsList[index]['price']}',
+                            '₹${productsList[index]['price']}',
                             style: colorFF2D55w70026.copyWith(
                               fontSize: 18,
                             ),
