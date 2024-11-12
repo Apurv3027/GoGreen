@@ -145,7 +145,9 @@ class _AddBannerScreenState extends State<AddBannerScreen> {
                   hintText: bannerDescriptionEX,
                   border: OutlineInputBorder(),
                 ),
-                maxLines: 3,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                scrollPhysics: ClampingScrollPhysics(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a description';

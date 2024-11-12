@@ -97,7 +97,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     // Make a POST request to create the order
     final res = await http.post(
-      Uri.parse(liveApiDomain + 'api/orders'),
+      Uri.parse(liveApiDomain + 'api/create-orders'),
       headers: {
         'Content-Type': 'application/json',
       },

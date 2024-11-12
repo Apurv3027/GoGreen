@@ -23,10 +23,10 @@ class _HomePageProductWidgetState extends State<HomePageProductWidget> {
   @override
   void initState() {
     super.initState();
-    fetchCategories();
+    fetchProducts();
   }
 
-  Future<void> fetchCategories() async {
+  Future<void> fetchProducts() async {
     try {
       final response = await http.get(
         Uri.parse(liveApiDomain + 'api/products'),
@@ -44,10 +44,10 @@ class _HomePageProductWidgetState extends State<HomePageProductWidget> {
 
         if (responseData is Map<String, dynamic> &&
             responseData.containsKey('products')) {
-          var categoriesData = responseData['products'];
+          var productData = responseData['products'];
           setState(() {
             productsList =
-                List<Map<String, dynamic>>.from(categoriesData.map((product) {
+                List<Map<String, dynamic>>.from(productData.map((product) {
               return {
                 'id': product['id'],
                 'name': product['product_name'],

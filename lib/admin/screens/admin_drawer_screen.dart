@@ -5,6 +5,7 @@ import 'package:go_green/admin/screens/category/admin_category_details_page.dart
 import 'package:go_green/admin/screens/orders/order_details.dart';
 import 'package:go_green/admin/screens/products/admin_product_details_page.dart';
 import 'package:go_green/admin/screens/users/admin_user_details_page.dart';
+import 'package:go_green/screens/auth/login_screen.dart';
 import 'package:go_green/screens/logIn_page.dart';
 import 'package:go_green/utility/cs.dart';
 import 'package:flutter/material.dart';
@@ -158,7 +159,8 @@ class AdminDrawerScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.offAll(LogIn());
+                    // Get.offAll(LogIn());
+                    Get.offAll(LoginScreen());
                   },
                   child: Text(
                     logout,

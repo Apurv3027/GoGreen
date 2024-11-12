@@ -62,6 +62,7 @@ class _AdminProductDetailsPageState extends State<AdminProductDetailsPage> {
               'title': category['product_name'] ?? 'No Data',
               'price': category['product_price'] ?? 'No Data',
               'description': category['product_description'] ?? 'No Data',
+              'quantity': category['product_quantity'] ?? 0,
               'category': category['product_category'] ?? 'No Data',
             };
           }).toList();
@@ -152,7 +153,7 @@ class _AdminProductDetailsPageState extends State<AdminProductDetailsPage> {
                                     // Product Name
                                     Text(
                                       productsList[index]['title'] ??
-                                          defaultURL,
+                                          "Product Name",
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
@@ -163,11 +164,13 @@ class _AdminProductDetailsPageState extends State<AdminProductDetailsPage> {
                                     // Product Description
                                     Text(
                                       productsList[index]['description'] ??
-                                          defaultURL,
+                                          "Product Description",
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.grey[700],
                                       ),
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                     SizedBox(height: 10),
 
@@ -182,16 +185,18 @@ class _AdminProductDetailsPageState extends State<AdminProductDetailsPage> {
                                     SizedBox(height: 5),
 
                                     // Product Stock Status
-                                    // Text(
-                                    //   'Stock: ${productList[index]['stock']}',
-                                    //   style: TextStyle(
-                                    //     fontSize: 16,
-                                    //     color: productList[index]['stock'] ==
-                                    //             'Available'
-                                    //         ? Colors.green
-                                    //         : Colors.red,
-                                    //   ),
-                                    // ),
+                                    Text(
+                                      'Stock: ${productsList[index]['quantity']}',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: productsList[index]['quantity'] == 0
+                                            ? Colors.red
+                                            : productsList[index]['quantity'] < 5
+                                            ? Colors.orange
+                                            : Colors.green,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -206,6 +211,7 @@ class _AdminProductDetailsPageState extends State<AdminProductDetailsPage> {
                                       // Handle product edit
                                       Get.to(EditProductDetailsScreen(
                                           productData: productsList[index]));
+                                      print(productsList[index]);
                                     },
                                   ),
                                   IconButton(

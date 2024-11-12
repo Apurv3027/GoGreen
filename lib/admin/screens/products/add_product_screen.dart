@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:go_green/admin/utility/adminCommonMaterialButton.dart';
 import 'package:go_green/utility/color_utilities.dart';
@@ -22,6 +23,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController _productNameController = TextEditingController();
   final TextEditingController _productPriceController = TextEditingController();
   final TextEditingController _productDescriptionController = TextEditingController();
+  final TextEditingController _productQuantityController = TextEditingController();
   final TextEditingController _productCategoryController = TextEditingController();
 
   File? _pickedImage;
@@ -51,6 +53,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       String productName = _productNameController.text;
       String productPrice = _productPriceController.text;
       String productDescription = _productDescriptionController.text;
+      int productQuantity = int.parse(_productQuantityController.text);
       String productCategory = selectedCategory ?? '';
 
       String? imageUrl;
@@ -66,6 +69,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         'product_price': productPrice,
         'product_image_url': imageUrl,
         'product_description': productDescription,
+        'product_quantity': productQuantity,
         'product_category': productCategory,
       };
 
@@ -85,6 +89,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         _productNameController.clear();
         _productPriceController.clear();
         _productDescriptionController.clear();
+        _productQuantityController.clear();
         // _productCategoryController.clear();
         selectedCategory = null;
         Get.back();
@@ -211,10 +216,31 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   hintText: 'Enter product description',
                   border: OutlineInputBorder(),
                 ),
-                maxLines: 3,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                scrollPhysics: ClampingScrollPhysics(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a description';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _productQuantityController,
+                decoration: InputDecoration(
+                  labelText: 'Product Quantity',
+                  hintText: 'Enter product quantity',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a quantity';
+                  } else if (int.tryParse(value) == null) {
+                    return 'Please enter a valid integer';
                   }
                   return null;
                 },

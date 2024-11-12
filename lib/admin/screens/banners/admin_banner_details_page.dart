@@ -129,16 +129,6 @@ class _AdminBannersDetailsPageState extends State<AdminBannersDetailsPage> {
                                 ),
                                 SizedBox(height: 10),
 
-                                // Banner ID
-                                Text(
-                                  'ID: ' + bannersList[index]['id'] ?? 'No Title',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-
                                 // Banner Title
                                 Text(
                                   'Name: ' + bannersList[index]['title'] ?? 'No Title',
@@ -147,6 +137,7 @@ class _AdminBannersDetailsPageState extends State<AdminBannersDetailsPage> {
                                     // fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                     color: Colors.grey[600],
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 SizedBox(height: 5),
@@ -158,6 +149,8 @@ class _AdminBannersDetailsPageState extends State<AdminBannersDetailsPage> {
                                     fontSize: 16,
                                     color: Colors.grey[600],
                                   ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 SizedBox(height: 10),
 

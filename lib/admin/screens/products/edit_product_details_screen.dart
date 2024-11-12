@@ -27,6 +27,7 @@ class _EditProductDetailsScreenState extends State<EditProductDetailsScreen> {
   late TextEditingController _productNameController;
   late TextEditingController _productPriceController;
   late TextEditingController _productDescriptionController;
+  late TextEditingController _productQuantityController;
   late TextEditingController _productCategoryController;
 
   File? _pickedImage;
@@ -40,6 +41,7 @@ class _EditProductDetailsScreenState extends State<EditProductDetailsScreen> {
     _productPriceController = TextEditingController(text: widget.productData['price']);
     imageUrl = widget.productData['image'];
     _productDescriptionController = TextEditingController(text: widget.productData['description']);
+    _productQuantityController = TextEditingController(text: widget.productData['quantity'].toString());
     _productCategoryController = TextEditingController(text: widget.productData['category']);
 
   }
@@ -49,6 +51,7 @@ class _EditProductDetailsScreenState extends State<EditProductDetailsScreen> {
     _productNameController.dispose();
     _productPriceController.dispose();
     _productDescriptionController.dispose();
+    _productQuantityController.dispose();
     _productCategoryController.dispose();
     super.dispose();
   }
@@ -59,6 +62,7 @@ class _EditProductDetailsScreenState extends State<EditProductDetailsScreen> {
       String name = _productNameController.text;
       String price = _productPriceController.text;
       String description = _productDescriptionController.text;
+      int quantity = int.parse(_productQuantityController.text);
       String category = _productCategoryController.text;
 
       if (_pickedImage != null) {
@@ -72,6 +76,7 @@ class _EditProductDetailsScreenState extends State<EditProductDetailsScreen> {
         'product_price': price,
         'product_image_url': imageUrl,
         'product_description': description,
+        'product_quantity': quantity,
         'product_category': category,
 
       };
@@ -94,6 +99,7 @@ class _EditProductDetailsScreenState extends State<EditProductDetailsScreen> {
         _productNameController.clear();
         _productPriceController.clear();
         _productDescriptionController.clear();
+        _productQuantityController.clear();
         _productCategoryController.clear();
         Get.back();
       } else {
@@ -234,9 +240,27 @@ class _EditProductDetailsScreenState extends State<EditProductDetailsScreen> {
                     hintText: "Product Description",
                     border: OutlineInputBorder(),
                   ),
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                  scrollPhysics: ClampingScrollPhysics(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a product description';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: _productQuantityController,
+                  decoration: InputDecoration(
+                    labelText: "Product Quantity",
+                    hintText: "Product Quantity",
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a product quantity';
                     }
                     return null;
                   },
