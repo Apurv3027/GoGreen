@@ -62,11 +62,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.check_circle, color: Colors.green, size: 50),
+                    // Display GIF
+                    Image.asset(
+                      'assets/icons/success.gif',
+                      height: 100,
+                      width: 100,
+                    ),
                     const SizedBox(height: 10),
                     const Text(
                       'Registration Successful!',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -95,17 +104,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.error, color: Colors.red, size: 50),
+                    // Display GIF
+                    Image.asset(
+                      'assets/icons/error.gif',
+                      height: 100,
+                      width: 100,
+                    ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Error! Please try again.',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
               ),
             ),
-            barrierDismissible: true,
+            barrierDismissible: false,
           );
         }
       } else {

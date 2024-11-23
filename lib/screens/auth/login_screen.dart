@@ -65,11 +65,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.check_circle, color: Colors.green, size: 50),
+                      // Display GIF
+                      Image.asset(
+                        'assets/icons/success.gif',
+                        height: 100,
+                        width: 100,
+                      ),
                       const SizedBox(height: 10),
                       const Text(
                         'Admin Login Successful!',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
@@ -85,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
             });
           } else {
             print(responseData['message']);
+
             Get.dialog(
               Center(
                 child: Container(
@@ -96,11 +106,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.check_circle, color: Colors.green, size: 50),
+                      // Display GIF
+                      Image.asset(
+                        'assets/icons/success.gif',
+                        height: 100,
+                        width: 100,
+                      ),
                       const SizedBox(height: 10),
                       const Text(
                         'User Login Successful!',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
