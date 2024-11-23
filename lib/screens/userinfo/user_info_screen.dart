@@ -106,13 +106,13 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             _buildDetailItem(
                 "Full Name", widget.userDetails['fullname'] ?? 'N/A'),
             // const Divider(),
-            _buildDetailItem(
-                "Date of birth", widget.userDetails['dob'] ?? 'N/A'),
+            // _buildDetailItem(
+            //     "Date of birth", widget.userDetails['dob'] ?? 'N/A'),
             // const Divider(),
             _buildDetailItem(
                 "Phone number", widget.userDetails['mobile_number'] ?? 'N/A'),
             // const Divider(),
-            _buildDetailItem("Gender", widget.userDetails['gender'] ?? 'N/A'),
+            // _buildDetailItem("Gender", widget.userDetails['gender'] ?? 'N/A'),
             // const Divider(),
             _buildDetailItem("Email", widget.userDetails['email'] ?? 'N/A'),
             // const Divider(),
