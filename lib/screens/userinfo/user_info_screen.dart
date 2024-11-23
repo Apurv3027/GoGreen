@@ -62,10 +62,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             ListTile(
               leading: CircleAvatar(
                 radius: 28,
-                child: NetworkImageWithLoader(
-                  widget.userDetails['profilePicture'] ??
-                      'https://i.imgur.com/IXnwbLk.png',
-                  radius: 100,
+                child: ClipRRect(
+                  child: Image.asset(
+                    'assets/img/person.png',
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      100,
+                    ),
+                  ),
                 ),
               ),
               title: Text(

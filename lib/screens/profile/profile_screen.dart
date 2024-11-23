@@ -79,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           : ProfileCard(
                               name: userData!['fullname'],
                               email: userData!['email'],
-                              imageSrc: "https://i.imgur.com/IXnwbLk.png",
+                              imageSrc: 'assets/img/person.png',
                               // proLableText: "Sliver",
                               // isPro: true, // if the user is pro
                               press: () {

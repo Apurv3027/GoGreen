@@ -27,9 +27,15 @@ class ProfileCard extends StatelessWidget {
       onTap: press,
       leading: CircleAvatar(
         radius: 28,
-        child: NetworkImageWithLoader(
-          imageSrc,
-          radius: 100,
+        child: ClipRRect(
+          child: Image.asset(
+            imageSrc,
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+              100,
+            ),
+          ),
         ),
       ),
       title: Row(
