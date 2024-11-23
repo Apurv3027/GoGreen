@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:go_green/screens/address/addresses_screen.dart';
 import 'package:go_green/screens/auth/login_screen.dart';
+import 'package:go_green/screens/orders/order_list_screen.dart';
 import 'package:go_green/screens/profile/components/profile_card.dart';
 import 'package:go_green/screens/profile/components/profile_menu_item_list_tile.dart';
 import 'package:go_green/screens/userinfo/user_info_screen.dart';
@@ -105,7 +106,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         text: "Orders",
                         svgSrc: "assets/icons/Order.svg",
                         press: () {
-                          // Navigator.pushNamed(context, ordersScreenRoute);
+                          Get.to(
+                            OrderListScreen(
+                              userId: widget.userId,
+                            ),
+                          );
                         },
                       ),
                       // ProfileMenuListTile(

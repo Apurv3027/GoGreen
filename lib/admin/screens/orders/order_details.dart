@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_green/admin/screens/orders/components/order_status_widget.dart';
 import 'package:go_green/utility/cs.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -134,10 +135,33 @@ class _OrderDetailsState extends State<OrderDetails> {
                           color: Colors.green,
                         ),
                       ),
+                      // SizedBox(height: 8),
+                      // Text(
+                      //   'Order Status: ${order['order_status']}',
+                      //   style: TextStyle(
+                      //     fontSize: 16,
+                      //     color: order['order_status'] == 'Processing'
+                      //         ? warningColor
+                      //         : order['order_status'] == 'Delivered'
+                      //             ? successColor
+                      //             : order['order_status'] == 'Rejected'
+                      //                 ? errorColor
+                      //                 : Colors.black,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      OrderStatusWidget(
+                        initialStatus: order['order_status'],
+                        orderId: order['order_id'],
+                      ),
                       SizedBox(height: 8),
                       // Display order items
-                      Text('Items:',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(
+                        'Items:',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Column(
                         children: List.generate(
                           order['order_items'].length,
@@ -146,13 +170,15 @@ class _OrderDetailsState extends State<OrderDetails> {
 
                             return FutureBuilder<Map<String, dynamic>?>(
                               future: fetchProductDetails(
-                                  item['product_id'].toString()),
+                                item['product_id'].toString(),
+                              ),
                               builder: (context, productSnapshot) {
                                 if (productSnapshot.connectionState ==
                                     ConnectionState.waiting) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0),
+                                      vertical: 4.0,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:go_green/entry_point.dart';
+import 'package:go_green/utility/constants.dart';
 import 'package:go_green/utility/cs.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -22,6 +23,8 @@ class ConfirmOrderScreen extends StatefulWidget {
   final double deliveryCharge;
   final List<dynamic> cartItems;
 
+  final String orderStatus;
+
   const ConfirmOrderScreen({
     Key? key,
     required this.userID,
@@ -30,6 +33,7 @@ class ConfirmOrderScreen extends StatefulWidget {
     required this.paymentMethod,
     required this.deliveryCharge,
     required this.cartItems,
+    required this.orderStatus,
   }) : super(key: key);
 
   @override
@@ -177,6 +181,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                               orderNumber: "#${widget.orderID}",
                               paidAmount: double.parse(widget.totalAmount),
                               deliveryCharge: widget.deliveryCharge,
+                              orderStatus: widget.orderStatus,
                             ).paddingSymmetric(
                               horizontal: 20,
                               vertical: 20,
@@ -337,7 +342,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                               children: [
                                 pw.Expanded(
                                   child: pw.Column(
-                                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
                                     children: [
                                       pw.Text(
                                         cartItem['product']['product_name'],
@@ -521,7 +527,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                               children: [
                                 pw.Expanded(
                                   child: pw.Column(
-                                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
                                     children: [
                                       pw.Text(
                                         cartItem['product']['product_name'],
@@ -574,11 +581,13 @@ class OrderDetails extends StatelessWidget {
   final String orderNumber;
   final double paidAmount;
   final double deliveryCharge;
+  final String orderStatus;
 
   OrderDetails({
     required this.orderNumber,
     required this.paidAmount,
     required this.deliveryCharge,
+    required this.orderStatus,
   });
 
   @override
@@ -669,6 +678,26 @@ class OrderDetails extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: Colors.green,
                       fontSize: 15,
+                    ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Order Status',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(fontSize: 15),
+              ),
+              Text(
+                orderStatus,
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                      fontSize: 15,
+                      color: warningColor,
+                      fontWeight: FontWeight.bold,
                     ),
               ),
             ],

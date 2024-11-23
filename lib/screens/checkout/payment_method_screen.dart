@@ -128,6 +128,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         'total_amount': widget.totalAmount,
         'payment_type': 'Online Payment',
         'payment_id': paymentId,
+        'order_status': 'Processing',
       }),
     );
 
@@ -151,6 +152,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
           paymentMethod: 0,
           deliveryCharge: 0.0,
           cartItems: widget.cartItems,
+          orderStatus: responseData['data']['order_status'],
         ),
       );
     } else {
@@ -234,6 +236,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
           paymentMethod: activeIndex == 0 ? 0 : 1,
           deliveryCharge: activeIndex == 0 ? 0.0 : 40.0,
           cartItems: widget.cartItems,
+          orderStatus: responseData['data']['order_status'],
         ),
       );
     } else {
