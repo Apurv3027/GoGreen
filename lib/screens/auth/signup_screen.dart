@@ -139,17 +139,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.error, color: Colors.red, size: 50),
+                  // Display GIF
+                  Image.asset(
+                    'assets/icons/error.gif',
+                    height: 100,
+                    width: 100,
+                  ),
                   const SizedBox(height: 10),
-                  Text(
+                  const Text(
                     'Error: Failed to register. Please try again.',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
             ),
           ),
-          barrierDismissible: true,
+          barrierDismissible: false,
         );
       }
     } catch (e) {
@@ -166,17 +175,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.error, color: Colors.red, size: 50),
+                // Display GIF
+                Image.asset(
+                  'assets/icons/error.gif',
+                  height: 100,
+                  width: 100,
+                ),
                 const SizedBox(height: 10),
-                Text(
+                const Text(
                   'Error! Please try again.',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),
           ),
         ),
-        barrierDismissible: true,
+        barrierDismissible: false,
       );
     }
   }
