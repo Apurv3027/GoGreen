@@ -118,11 +118,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       //   svgSrc: "assets/icons/Return.svg",
                       //   press: () {},
                       // ),
-                      ProfileMenuListTile(
-                        text: "Wishlist",
-                        svgSrc: "assets/icons/Wishlist.svg",
-                        press: () {},
-                      ),
+                      // ProfileMenuListTile(
+                      //   text: "Wishlist",
+                      //   svgSrc: "assets/icons/Wishlist.svg",
+                      //   press: () {},
+                      // ),
                       ProfileMenuListTile(
                         text: "Addresses",
                         svgSrc: "assets/icons/Address.svg",
@@ -130,13 +130,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Get.to(AddressesScreen());
                         },
                       ),
-                      ProfileMenuListTile(
-                        text: "Payment",
-                        svgSrc: "assets/icons/card.svg",
-                        press: () {
-                          // Navigator.pushNamed(context, emptyPaymentScreenRoute);
-                        },
-                      ),
+                      // ProfileMenuListTile(
+                      //   text: "Payment",
+                      //   svgSrc: "assets/icons/card.svg",
+                      //   press: () {
+                      //     // Navigator.pushNamed(context, emptyPaymentScreenRoute);
+                      //   },
+                      // ),
                       // ProfileMenuListTile(
                       //   text: "Wallet",
                       //   svgSrc: "assets/icons/Wallet.svg",
@@ -182,13 +182,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ),
-                      ProfileMenuListTile(
-                        text: "Language",
-                        svgSrc: "assets/icons/Language.svg",
-                        press: () {
-                          // Navigator.pushNamed(context, selectLanguageScreenRoute);
-                        },
-                      ),
+                      // ProfileMenuListTile(
+                      //   text: "Language",
+                      //   svgSrc: "assets/icons/Language.svg",
+                      //   press: () {
+                      //     // Navigator.pushNamed(context, selectLanguageScreenRoute);
+                      //   },
+                      // ),
                       // ProfileMenuListTile(
                       //   text: "Location",
                       //   svgSrc: "assets/icons/Location.svg",

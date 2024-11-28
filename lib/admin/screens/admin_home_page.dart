@@ -8,6 +8,7 @@ import 'package:go_green/admin/screens/products/admin_product_details_page.dart'
 import 'package:go_green/admin/screens/users/admin_user_details_page.dart';
 import 'package:go_green/admin/utility/DashboardCard.dart';
 import 'package:go_green/utility/color_utilities.dart';
+import 'package:go_green/utility/constants.dart';
 import 'package:go_green/utility/cs.dart';
 import 'package:go_green/utility/text_utils.dart';
 import 'package:http/http.dart' as http;
@@ -335,13 +336,32 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          trailing: Text(
-                            'Total: ₹${order['total_amount']}',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          trailing: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Total: ₹${order['total_amount']}',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'Total: ${order['order_status']}',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: order['order_status'] == 'Processing'
+                                      ? warningColor
+                                      : order['order_status'] == 'Delivered'
+                                          ? successColor
+                                          : order['order_status'] == 'Rejected'
+                                              ? errorColor
+                                              : Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       },
