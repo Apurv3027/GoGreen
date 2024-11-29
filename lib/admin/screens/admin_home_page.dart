@@ -348,7 +348,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                 ),
                               ),
                               Text(
-                                'Total: ${order['order_status']}',
+                                'Order Status: ${order['order_status']}',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: order['order_status'] == 'Processing'
