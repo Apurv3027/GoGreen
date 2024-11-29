@@ -293,30 +293,30 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         ),
 
               // Payment Method Section
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade300, width: 1),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade200,
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(16),
-                  leading: const Icon(Icons.payment),
-                  title: const Text('Payment method'),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    // Handle payment method selection
-                  },
-                ),
-              ),
-              const SizedBox(height: 16),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(12),
+              //     border: Border.all(color: Colors.grey.shade300, width: 1),
+              //     boxShadow: [
+              //       BoxShadow(
+              //         color: Colors.grey.shade200,
+              //         blurRadius: 6,
+              //         offset: const Offset(0, 2),
+              //       ),
+              //     ],
+              //   ),
+              //   child: ListTile(
+              //     contentPadding: const EdgeInsets.all(16),
+              //     leading: const Icon(Icons.payment),
+              //     title: const Text('Payment method'),
+              //     trailing: const Icon(Icons.arrow_forward_ios),
+              //     onTap: () {
+              //       // Handle payment method selection
+              //     },
+              //   ),
+              // ),
+              // const SizedBox(height: 16),
 
               // Gift Option Section
               Container(

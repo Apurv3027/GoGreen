@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:go_green/screens/auth/login_screen.dart';
 import 'package:go_green/screens/auth/signup_screen.dart';
 import 'package:go_green/screens/category/category_screen.dart';
@@ -77,24 +78,38 @@ class _EntryPointState extends State<EntryPoint> {
         centerTitle: false,
         title: Text('GoGreen'),
         actions: [
+          // IconButton(
+          //   onPressed: () {
+          //     // Navigator.pushNamed(context, searchScreenRoute);
+          //   },
+          //   icon: SvgPicture.asset(
+          //     "assets/icons/Search.svg",
+          //     height: 24,
+          //     colorFilter: ColorFilter.mode(
+          //         Theme.of(context).textTheme.bodyLarge!.color!,
+          //         BlendMode.srcIn),
+          //   ),
+          // ),
+          // IconButton(
+          //   onPressed: () {
+          //     // Navigator.pushNamed(context, notificationsScreenRoute);
+          //   },
+          //   icon: SvgPicture.asset(
+          //     "assets/icons/Notification.svg",
+          //     height: 24,
+          //     colorFilter: ColorFilter.mode(
+          //         Theme.of(context).textTheme.bodyLarge!.color!,
+          //         BlendMode.srcIn),
+          //   ),
+          // ),
           IconButton(
             onPressed: () {
-              // Navigator.pushNamed(context, searchScreenRoute);
+              Get.offAll(
+                LoginScreen(),
+              );
             },
             icon: SvgPicture.asset(
-              "assets/icons/Search.svg",
-              height: 24,
-              colorFilter: ColorFilter.mode(
-                  Theme.of(context).textTheme.bodyLarge!.color!,
-                  BlendMode.srcIn),
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              // Navigator.pushNamed(context, notificationsScreenRoute);
-            },
-            icon: SvgPicture.asset(
-              "assets/icons/Notification.svg",
+              "assets/icons/Logout.svg",
               height: 24,
               colorFilter: ColorFilter.mode(
                   Theme.of(context).textTheme.bodyLarge!.color!,
